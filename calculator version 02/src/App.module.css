@@ -1,0 +1,16 @@
+.main-container {
+  display: grid;
+  place-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100vh;
+  padding: 0 40px;
+}
+.calculator {
+  background-image: linear-gradient(to right, #6d0888, #9c4bac);
+  border: 1px solid gray;
+  width: 300px;
+  padding: 10px 20px;
+  border-radius: 10px;
+}

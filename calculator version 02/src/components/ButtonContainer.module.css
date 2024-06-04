@@ -1,0 +1,23 @@
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.button {
+  width: 65px;
+  height: 65px;
+  margin: 10px;
+  font-weight: bolder;
+  font-size: 24px;
+  border-radius: 10px;
+  border: none;
+  /* outline: 1px solid blue; */
+  cursor: pointer;
+  background: #fff;
+  color: black;
+  transition: background, color 0.2s ease-in-out;
+}
+.button:hover {
+  color: #fff;
+  background: black;
+}

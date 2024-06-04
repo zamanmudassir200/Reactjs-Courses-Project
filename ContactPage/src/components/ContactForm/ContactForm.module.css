@@ -1,0 +1,23 @@
+.top_btns {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+.contactForm_section {
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  max-width: 1000px;
+  margin: 0px auto;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  gap: 30px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: stretch;
+}

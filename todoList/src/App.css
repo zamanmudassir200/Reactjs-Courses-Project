@@ -1,0 +1,25 @@
+/* html {
+  font-size: 62.5%;
+} */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main-heading {
+  font-weight: bolder;
+  margin: 1rem 0;
+  font-size: 2.5rem;
+}
+input {
+  width: 100%;
+}
+.items-container {
+  text-align: left;
+}
+.kg-row {
+  margin: 1rem 0;
+}
+.kg-button {
+  min-width: 70px;
+}

@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  text-align: center;
+}
+
+.main-heading {
+  padding: 26px 0px;
+  color: white;
+  background: purple;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 14px 6px;
+  text-align: left;
+  border: 3px solid purple;
+  border-radius: 10px;
+  outline: none;
+  font-size: 17px;
+}
+input:focus {
+  border: 4px solid purple;
+}
+.cards-section {
+  margin: 20px 0;
+}

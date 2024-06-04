@@ -1,0 +1,61 @@
+header {
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0089b7;
+}
+header nav {
+  max-width: 120rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.8rem 1rem;
+}
+.logo h2 span {
+  color: orange;
+  font-size: 2.9rem;
+}
+h2 {
+  font-size: 2.4rem;
+  letter-spacing: 0.3rem;
+}
+
+.nav-items ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  font-size: 1.9rem;
+  gap: 3.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+.nav-items ul li:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
+}
+.nav-link {
+  text-decoration: none;
+  color: white;
+  padding-bottom: 1rem;
+  position: relative;
+}
+.nav-link:hover {
+  transform: scale(1.09);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  border-radius: 2rem;
+  width: 15%;
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background-color: orange;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
