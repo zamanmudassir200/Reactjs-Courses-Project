@@ -17,9 +17,6 @@ const ExpenseItems = () => {
                   <p className="font-semibold"> {item.amount} Rs</p>
                 </div>
                 <div className="flex items-center justify-center gap-3">
-                  <button className="bg-blue-900 text-white font-semibold p-2 rounded-xl hover:bg-transparent hover:text-black  border-2 border-blue-900">
-                    Edit
-                  </button>
                   <button
                     onClick={() => handleDeleteBtn(i, item.amount)}
                     className="border-2 border-blue-900 p-2 rounded-xl font-semibold hover:bg-blue-900 hover:text-white"
