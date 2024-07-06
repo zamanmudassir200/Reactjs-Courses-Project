@@ -1,0 +1,268 @@
+import React, { useState, useRef, useEffect } from "react";
+import { IoAddCircle } from "react-icons/io5";
+import Header from "./Header";
+import TodoInput from "./TodoInput";
+import TodoList from "./TodoList";
+import Modal from "./Modal";
+import "./App.css";
+
+const App = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState([]);
+  const [editText, setEditText] = useState("");
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    const storedTodoItems = JSON.parse(window.localStorage.getItem("todos"));
+    if (storedTodoItems) {
+      setTodos(storedTodoItems);
+    }
+  }, []);
+
+  const handleTaskInput = (e) => {
+    setTask(e.target.value);
+  };
+
+  const handleAddBtn = () => {
+    if (task.trim().length !== 0) {
+      const newTask = task.trim();
+      const todosItemsArr = {
+        id: Date.now(),
+        text: newTask,
+        isEditing: false,
+        completed: false,
+      };
+      const updatedTodoItemsArr = [...todos, todosItemsArr];
+      setTodos(updatedTodoItemsArr);
+      inputRef.current.focus();
+
+      window.localStorage.setItem("todos", JSON.stringify(updatedTodoItemsArr));
+      setTask("");
+    }
+  };
+
+  const handleDeleteBtn = (id) => {
+    const updateTodosItemsArr = todos.filter((todo) => todo.id !== id);
+    setTodos(updateTodosItemsArr);
+    window.localStorage.setItem("todos", JSON.stringify(updateTodosItemsArr));
+  };
+
+  const toggleEdit = (id) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
+    );
+    setTodos(updatedTodos);
+    window.localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  };
+
+  const handleEditBtn = (id, newText) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, text: newText, isEditing: false } : todo
+    );
+    setTodos(updatedTodos);
+    window.localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  };
+
+  const handleCheckBoxInput = (id) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
+    window.localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  };
+
+  return (
+    <div className="px-10 py-5 bg-purple-300 min-h-screen">
+      <Header />
+      <div className="grid place-items-center w-full">
+        <TodoInput
+          task={task}
+          handleTaskInput={handleTaskInput}
+          handleAddBtn={handleAddBtn}
+          inputRef={inputRef}
+        />
+      </div>
+      <div className="my-[100px] flex-col h-auto text-center items-center justify-center top-[100px] left-[50px] shadow-xl rounded-lg p-4 bg-white gap-2 flex w-[100%]">
+        <h1 className="text-4xl mt-4 text-center sm:pt-0 font-bold">
+          Todo List
+        </h1>
+        <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
+          <p className="text-red-500 text-xl font-semibold italic">
+            You cannot save the empty todo item. Please write something...
+          </p>
+        </Modal>
+        <TodoList
+          todos={todos}
+          handleCheckBoxInput={handleCheckBoxInput}
+          toggleEdit={toggleEdit}
+          handleEditBtn={handleEditBtn}
+          handleDeleteBtn={handleDeleteBtn}
+          setEditText={setEditText}
+          editText={editText}
+          setShowModal={setShowModal}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default App;
+
+import React from "react";
+
+const Header = () => {
+  return (
+    <h1 className="sticky top-0 h-[200px] bg-purple-600 w-full text-center text-white font-bold py-4 text-3xl rounded-lg">
+      TODO List
+    </h1>
+  );
+};
+
+export default Header;
+
+import React from "react";
+import { IoAddCircle } from "react-icons/io5";
+
+const TodoInput = ({ task, handleTaskInput, handleAddBtn, inputRef }) => {
+  return (
+    <div className="top-[80px] sm:min-w-[90%] min-w-[10%] w-[90%] rounded-lg bg-white absolute py-10 px-10 flex flex-col gap-8 items-center justify-center shadow-lg">
+      <div className="flex flex-wrap">
+        <input
+          onChange={handleTaskInput}
+          value={task}
+          ref={inputRef}
+          className="text-black w-[8em] placeholder:text-[12px] sm:placeholder:text-lg mx-2 border-b-2 sm:w-[300px] text-xl border-gray-600 focus:outline-none"
+          type="text"
+          placeholder="What would you like to do?"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleAddBtn();
+            }
+          }}
+        />
+      </div>
+      <button
+        onClick={handleAddBtn}
+        className="flex justify-center items-center py-3 sm:w-[100px] w-[50px] bg-orange-600 text-white font-bold text-xl rounded-md hover:bg-orange-700 transition-all"
+      >
+        <IoAddCircle />
+      </button>
+    </div>
+  );
+};
+
+export default TodoInput;
+
+
+import React from "react";
+import TodoItem from "./TodoItem";
+
+const TodoList = ({
+  todos,
+  handleCheckBoxInput,
+  toggleEdit,
+  handleEditBtn,
+  handleDeleteBtn,
+  setEditText,
+  editText,
+  setShowModal,
+}) => {
+  return (
+    <ul className="mt-[20px] flex pt-[20px] my-4 rounded-lg flex-col items-center justify-center sm:justify-start gap-3 w-[100%] sm:w-[96%]">
+      {todos.length === 0 ? (
+        <h1 className="py-4 text-xl font-semibold">No Items Available</h1>
+      ) : (
+        todos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            handleCheckBoxInput={handleCheckBoxInput}
+            toggleEdit={toggleEdit}
+            handleEditBtn={handleEditBtn}
+            handleDeleteBtn={handleDeleteBtn}
+            setEditText={setEditText}
+            editText={editText}
+            setShowModal={setShowModal}
+          />
+        ))
+      )}
+    </ul>
+  );
+};
+
+export default TodoList;
+
+import React from "react";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+
+const TodoItem = ({
+  todo,
+  handleCheckBoxInput,
+  toggleEdit,
+  handleEditBtn,
+  handleDeleteBtn,
+  setEditText,
+  editText,
+  setShowModal,
+}) => {
+  return (
+    <li className="flex justify-center sm:items-center w-[100%] p-4 border-4 text-center sm:text-left flex-wrap sm:flex-nowrap sm:flex-row cursor-pointer border-orange-600 gap-2 rounded-xl">
+      <div className="flex items-center justify-start gap-1 w-[300%]">
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={() => handleCheckBoxInput(todo.id)}
+          className="cursor-pointer"
+        />
+        {todo.isEditing ? (
+          <input
+            className="text-black font-extrabold border-none focus:outline-none w-[100%] text-2xl"
+            type="text"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            onBlur={() => handleEditBtn(todo.id, editText)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                if (editText.trim() !== "") {
+                  handleEditBtn(todo.id, editText);
+                } else {
+                  setShowModal(true);
+                }
+              }
+            }}
+            autoFocus
+          />
+        ) : (
+          <span
+            className={`flex bg-gray-100 items-center justify-center font-bold ml-2 text-lg ${
+              todo.completed ? "line-through" : ""
+            }`}
+            onClick={() => {
+              setEditText(todo.text); // Set current text to state for editing
+            }}
+          >
+            {todo.text}
+          </span>
+        )}
+      </div>
+      <div className="flex w-full p-2 justify-center items-center sm:justify-end gap-4">
+        <button
+          onClick={() => toggleEdit(todo.id)}
+          className="p-4 bg-orange-600 rounded-md text-white font-bold hover:bg-orange-500 transition-all"
+        >
+          <FaEdit />
+        </button>
+        <button
+          onClick={() => handleDeleteBtn(todo.id)}
+          className="p-4 bg-orange-600 rounded-md text-white font-bold hover:bg-orange-500 transition-all"
+        >
+          <MdDelete />
+        </button>
+      </div>
+    </li>
+  );
+};
+
+export default TodoItem;

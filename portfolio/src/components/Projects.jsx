@@ -1,7 +1,7 @@
 import React from "react";
 
-const Projects = () => {
-  return <div>projects</div>;
+const Projects = ({ handleHideItems }) => {
+  return <section onClick={handleHideItems}>projects</section>;
 };
 
 export default Projects;

@@ -4,6 +4,7 @@ header {
   top: 0;
   z-index: 100;
   background: #0089b7;
+  height: 80px;
 }
 header nav {
   max-width: 120rem;
@@ -12,6 +13,11 @@ header nav {
   align-items: center;
   justify-content: space-between;
   padding: 1.8rem 1rem;
+}
+.portfolio {
+  color: white;
+  font-size: 26px;
+  text-decoration: none;
 }
 .logo h2 span {
   color: orange;
@@ -27,8 +33,9 @@ h2 {
   align-items: center;
   justify-content: center;
   list-style: none;
-  font-size: 1.9rem;
+  font-size: 1.6rem;
   gap: 3.5rem;
+  font-weight: 600;
   transition: transform 0.3s ease-in-out;
 }
 .nav-items ul li:hover {
@@ -40,6 +47,10 @@ h2 {
   color: white;
   padding-bottom: 1rem;
   position: relative;
+}
+
+.nav-link-active {
+  color: orange;
 }
 .nav-link:hover {
   transform: scale(1.09);
