@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalContext } from "../context/context";
 
-const Name = ({ name, handleNameInput }) => {
+const Name = () => {
+  const { handleNameInput, name } = useContext(GlobalContext);
   return (
     <>
       <div className="flex items-start justify-start flex-col gap-1 w-[100%]">

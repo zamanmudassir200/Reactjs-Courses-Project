@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalContext } from "../context/context";
 
-const AddBtn = ({ handleAddButton }) => {
+const AddBtn = () => {
+  const { handleAddButton } = useContext(GlobalContext);
   return (
     <button
       onClick={handleAddButton}

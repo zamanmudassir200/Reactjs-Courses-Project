@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalContext } from "../context/context";
 
-const ClearAllBtn = ({ handleClearAllButton }) => {
+const ClearAllBtn = () => {
+  const { handleClearAllButton } = useContext(GlobalContext);
   return (
     <button
       onClick={handleClearAllButton}

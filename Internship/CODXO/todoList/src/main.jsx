@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { GlobalState } from "./context/context.jsx";
+import TodoProvider from "./context/TodoProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <GlobalState>
-    <React.StrictMode>
+  <React.StrictMode>
+    <TodoProvider>
       <App />
-    </React.StrictMode>
-  </GlobalState>
+    </TodoProvider>
+  </React.StrictMode>
 );
