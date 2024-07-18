@@ -78,11 +78,14 @@ const Navbar = () => {
         </div>
         <div className="sm:hidden">
           {showNavIcon ? (
-            <FaBarsStaggered onClick={handleShowItems} className="text-4xl " />
+            <FaBarsStaggered
+              onClick={handleShowItems}
+              className="text-4xl cursor-pointer "
+            />
           ) : (
             <RxCross1
               onClick={handleHideItems}
-              className="text-4xl font-extrabold"
+              className="text-4xl cursor-pointer font-extrabold"
             />
           )}
           <div className=" ">
