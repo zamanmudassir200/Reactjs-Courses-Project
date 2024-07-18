@@ -1,130 +1,27 @@
-// // import React, { useState } from "react";
-// // import styles from "./Home.module.css";
-// // import Footer from "./Footer";
-
-// // const Home = () => {
-// //   const [tiltStyle, setTiltStyle] = useState({});
-// //   const handleMouseMove = (e) => {
-// //     const container = e.currentTarget;
-// //     const { left, top, width, height } = container.getBoundingClientRect();
-// //     const x = (e.clientX - left) / width - 0.5;
-// //     const y = (e.clientY - top) / height - 0.5;
-
-// //     const tiltX = y * 30; // Adjust tilt angle on Y-axis
-// //     const tiltY = x * -30; // Adjust tilt angle on X-axis
-
-// //     setTiltStyle({
-// //       transform: `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
-// //     });
-// //   };
-
-// //   const handleMouseLeave = () => {
-// //     setTiltStyle({
-// //       transform: `rotateX(0) rotateY(0)`,
-// //     });
-// //   };
-
-// //   return (
-// //     <>
-// //       <section className={styles["hero-section"]}>
-// //         <div className={styles.container}>
-// //           {/* <div
-// //             className={`${styles["image-container"]} animate__animated animate__bounceInLeft `}
-// //           >
-// //             <img src="public\profile.jpg" alt="Profile" />
-// //           </div> */}
-// //           <div
-// //             className={`${styles["image-container"]} animate__animated animate__bounceInLeft`}
-// //             onMouseMove={handleMouseMove}
-// //             onMouseLeave={handleMouseLeave}
-// //             style={{ perspective: "700px" }}
-// //           >
-// //             <img
-// //               src="public\profile.jpg"
-// //               alt="Profile"
-// //               style={{
-// //                 width: "300px",
-// //                 height: "400px",
-// //                 transition: "transform 0.1s",
-// //                 willChange: "transform",
-// //                 ...tiltStyle,
-// //               }}
-// //             />
-// //           </div>
-// //           <div className={styles["hero-content"]}>
-// //             <center className="">
-// //               <span className={styles["hi-text"]}>Hi👋</span>
-// //               <span className={styles.Iam}>, I'm </span>
-// //               <span className={styles["name-text"]}>M.Mudassir Zaman </span>
-// //               <h2 className={styles["dev"]}>Frontend Developer</h2>
-// //             </center>
-// //             <div className={styles["home-content"]}>
-// //               <p>
-// //                 Crafting dynamic and responsive web experiences with React.
-// //                 Specializing in modern front-end development. Transforming ideas
-// //                 into seamless user interfaces
-// //               </p>
-// //             </div>
-// //             <div className={styles.Cv}>
-// //               <a href="public\Resume.pdf" target="_blank">
-// //                 Download CV
-// //               </a>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       </section>
-// //       <Footer />
-// //     </>
-// //   );
-// // };
-
-// // export default Home;
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styles from "./Home.module.css";
-// import { useGSAP } from "@gsap/react";
-// import { gsap } from "react";
+import Education from "./Education/Education.jsx";
+import { AppContext } from "../context/context.jsx";
 
-const Home = ({ handleHideItems }) => {
-  const [tiltStyle, setTiltStyle] = useState({});
-  const handleMouseMove = (e) => {
-    const container = e.currentTarget;
-    const { left, top, width, height } = container.getBoundingClientRect();
-    const x = (e.clientX - left) / width - 0.5;
-    const y = (e.clientY - top) / height - 0.5;
-
-    const tiltX = y * 30; // Adjust tilt angle on Y-axis
-    const tiltY = x * -30; // Adjust tilt angle on X-axis
-
-    setTiltStyle({
-      transform: `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setTiltStyle({
-      transform: `rotateX(0) rotateY(0)`,
-    });
-  };
+const Home = () => {
+  const { handleHideItems } = useContext(AppContext);
 
   return (
     <>
       <section
         onClick={handleHideItems}
-        className="bg-[#003d62] min-h-screen px-[20px] py-10"
+        className="bg-[#003d62] min-h-screen py-10 items-center justify-center flex px-[20px] border-white border-b-4"
       >
-        <div className="flex  lg:flex-row flex-col  lg:h-screen  items-center justify-center  gap-[1rem] lg:gap-[4rem]  lg:p-10 max-w-[120rem] mx-auto">
-          <div className="-z-10000">
+        <div className="flex lg:flex-row flex-col  items-center justify-center  gap-[1rem]  lg:gap-[4rem]  lg:p-10 max-w-[120rem] mx-auto">
+          <div className="">
             <div
-              className="animate__animated animate__bounceInLeft -z-100 relative"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+              className="animate__animated animate__bounceInLeft border-4 border-orange-400 rounded-full shadow-2xl shadow-orange-500  overflow-hidden "
               style={{ perspective: "700px" }}
             >
               <img
                 src="./profile.jpg"
                 alt="Profile"
-                className=" w-[14rem] sm:w-[20rem] lg:w-[28rem] -z-100000 inline-block bg-red-400 rounded-[47%] drop-shadow-lg transition-transform duration-100 will-change-transform"
-                style={tiltStyle}
+                className=" w-[14rem] sm:w-[20rem] lg:w-[28rem]  inline-block bg-red-400  transition-transform duration-100 will-change-transform"
               />
             </div>
           </div>
@@ -135,11 +32,12 @@ const Home = ({ handleHideItems }) => {
               </span>
               <span className="text-[2.9rem] text-white">, I'm </span>
               <span className="text-[34px] sm:text-[5rem] text-white">
-                M.Mudassir Zaman{" "}
+                M.Mudassir Zaman
               </span>
               <span
                 className={`${styles.dev} text-[30px] sm:text-[4.6rem] font-bold text-white border-r-[0.15em] border-orange-500 overflow-hidden whitespace-nowrap mx-auto typing-animation`}
               >
+                {" "}
                 Frontend Developer
               </span>
             </div>
@@ -154,12 +52,20 @@ const Home = ({ handleHideItems }) => {
               <a
                 href="public/Resume.pdf"
                 target="_blank"
-                className="relative inline-block text-white overflow-hidden font-extrabold text-[1.5rem] px-8 py-4 border-2 border-orange-500 rounded-lg transition-all duration-300 transform hover:scale-[1.02] letter-spacing-[0.4rem] before:absolute  before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-orange-500 before:z-[-1] before:transition-left before:duration-700 before:ease-in-out hover:before:left-0  "
+                className="relative inline-block text-white overflow-hidden font-extrabold text-[1.5rem] px-8 py-4 border-2 border-orange-500 rounded-lg transition-all duration-300 transform hover:scale-[1.02] letter-spacing-[0.4rem] before:absolute self-center before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-orange-500 before:z-[-1] before:transition-left before:duration-700 before:ease-in-out hover:before:left-0  "
               >
                 Download CV
               </a>
             </div>
           </div>
+        </div>
+      </section>
+      <section className="bg-[#46aacc] py-10  ">
+        <div className=" max-w-[1100px] mx-auto px-10 ">
+          <h1 className="text-center py-10 font-bold text-white text-6xl">
+            Education
+          </h1>
+          <Education />
         </div>
       </section>
     </>

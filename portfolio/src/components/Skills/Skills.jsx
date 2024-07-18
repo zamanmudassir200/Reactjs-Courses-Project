@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Cards from "./Cards";
+import { AppContext } from "../../context/context";
 
-const Skills = ({ handleHideItems }) => {
+const Skills = () => {
+  const { handleHideItems } = useContext(AppContext);
+
   return (
     <>
       <section onClick={handleHideItems} className="bg-[#003d62] py-10 px-10">
-        <div className="max-w-[1000px] min-h-screen text-white mx-auto">
-          <h1 className="text-6xl font-bold pt-[70px] mb-10 text-center">
+        <div className="max-w-[1250px] min-h-screen text-white mx-auto">
+          <h1 className="text-6xl underline font-bold pt-[70px] mb-10 text-center">
             My Skills
           </h1>
           <p className="text-3xl leading-[37px] text-justify">
@@ -20,6 +23,11 @@ const Skills = ({ handleHideItems }) => {
           </p>
           <div className="my-9">
             <Cards />
+          </div>
+          <div className="border-2 ">
+            <h1 className=" text-6xl underline font-bold pt-[40px] mb-10 text-center">
+              Certificates
+            </h1>
           </div>
         </div>
       </section>

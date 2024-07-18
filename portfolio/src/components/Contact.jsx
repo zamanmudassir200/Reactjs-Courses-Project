@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../context/context";
+const Contact = () => {
+  const { handleHideItems } = useContext(AppContext);
 
-const Contact = ({ handleHideItems }) => {
   return <section onClick={handleHideItems}>contact</section>;
 };
 
