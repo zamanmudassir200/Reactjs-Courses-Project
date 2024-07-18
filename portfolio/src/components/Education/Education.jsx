@@ -52,7 +52,6 @@ const Education = () => {
                           <li>- {edu.degree}</li>
                           <li>- {edu.percentage}</li>
                           <li>- {edu.year}</li>
-                          <li>- {edu.subjects}</li>
                         </ul>
                       </div>
                     )
