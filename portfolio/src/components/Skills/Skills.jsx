@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Cards from "./Cards";
 import { AppContext } from "../../context/context";
+import Certificates from "./Certificates.jsx";
 
 const Skills = () => {
   const { handleHideItems } = useContext(AppContext);
@@ -24,11 +25,7 @@ const Skills = () => {
           <div className="my-9">
             <Cards />
           </div>
-          <div className="border-2 ">
-            <h1 className=" text-6xl underline font-bold pt-[40px] mb-10 text-center">
-              Certificates
-            </h1>
-          </div>
+          <Certificates />
         </div>
       </section>
     </>
