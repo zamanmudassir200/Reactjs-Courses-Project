@@ -6,37 +6,44 @@ const Certificates = () => {
       name: "Introduction to Front-End Development",
       link: "https://www.coursera.org/account/accomplishments/records/E8GX5WYK9JW5",
       img: "src/components/Skills/certificates-images/Introduction-to-frontend-web-development.png",
-      cerficateFrom: "Meta",
+      cerficateFrom: "Coursera",
+      certificateBy: "Meta",
     },
     {
       name: "Programming With JavaScript",
       link: "https://www.coursera.org/account/accomplishments/records/7BAMBS64D2DQ",
       img: "src/components/Skills/certificates-images/Programming-With-JavaScript.png",
-      cerficateFrom: "Meta",
+      cerficateFrom: "Coursera",
+      certificateBy: "Meta",
     },
     {
       name: "Version Control",
       link: "https://www.coursera.org/account/accomplishments/records/J675C2D5XB4V",
       img: "src/components/Skills/certificates-images/Version-Control.png",
-      cerficateFrom: "Meta",
+      cerficateFrom: "Coursera",
+      certificateBy: "Meta",
     },
     {
       name: "React and Redux Certification Test - Youtube Course",
       link: "https://www.kgcoding.in/verify-certificate?serialno=HCORYUOG",
       img: "src/components/Skills/certificates-images/react.png",
-      cerficateFrom: "KGCoding by Prashant Sir",
+      cerficateFrom: "Youtube",
+      certificateBy: "KGCoding by Prashant Sir",
     },
     {
       name: "JavaScript Certification Test - Youtube Course",
       link: "https://www.kgcoding.in/verify-certificate?serialno=FP3KFKY1",
       img: "src/components/Skills/certificates-images/js.png",
-      cerficateFrom: "KGCoding by Prashant Sir",
+      certificateBy: "KGCoding by Prashant Sir",
+      cerficateFrom: "Youtube",
     },
     {
       name: "Namaste JavaScript",
       link: "https://namastedev.com/zamanmudassir200/certificates/namaste-javascript",
       img: "src/components/Skills/certificates-images/namaste-js.webp",
+
       cerficateFrom: "NamasteDev.com",
+      certificateBy: "Akshay Saini",
     },
   ];
   return (
@@ -54,6 +61,9 @@ const Certificates = () => {
               <h1 className="font-bold text-5xl my-6 ">{cert.name}</h1>
               <p className="font-semibold my-4 text-4xl text-orange-300">
                 From: {cert.cerficateFrom}
+              </p>
+              <p className="font-semibold my-4 text-4xl text-orange-300">
+                By: {cert.certificateBy}
               </p>
               <a
                 className="font-light text-blue-300 text-3xl"
