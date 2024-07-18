@@ -10,8 +10,7 @@ const skills = {
   Bootstrap5: [{ name: "Bootstrap5", img: "./bootstrap.png" }],
   Git: [{ name: "Git", img: "./git.png" }],
   Github: [{ name: "Github", img: "./github.png" }],
-  Firebase: [{ name: "Firebase", img: "./github.png" }],
-  GSAP: [{ name: "GSAP", img: "./github.png" }],
+  Firebase: [{ name: "Firebase", img: "./firebase.png" }],
 };
 
 const Cards = () => {
