@@ -128,7 +128,7 @@ const ProjectCard = () => {
               />
 
               <div
-                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-45 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
+                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-70  duration-300 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
               >
                 <h1 className="font-bold text-4xl my-5 italic underline text-yellow-400">
                   {project.name}
@@ -167,7 +167,7 @@ const ProjectCard = () => {
             >
               <img className="h-full" src={js_project.img} />
               <div
-                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-45 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
+                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-70 duration-300 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
               >
                 <h1 className="font-bold text-4xl my-5 italic underline text-yellow-400">
                   {js_project.name}
