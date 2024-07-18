@@ -112,32 +112,37 @@ const ProjectCard = () => {
   ];
   return (
     <>
-      <h1 className="font-bold text-5xl">React Projects</h1>
+      <h1 className="font-bold text-5xl underline ">React Projects</h1>
 
       <div className="flex items-center justify-center gap-8 my-10  flex-wrap">
         {react_projects.map((project) => {
           return (
             <div
               key={project.name}
-              className="max-w-[400px] h-[300px] cursor-pointer overflow-hidden hover:scale-[1.07] transition-all flex flex-col gap-7 border-2 border-gray-500 rounded-xl "
+              className="max-w-[400px] relative h-[280px] cursor-pointer overflow-hidden hover:scale-[1.07] transition-all flex flex-col gap-7 border-2 border-gray-500 rounded-xl "
             >
               <img
                 className="w-full h-full "
                 src={project.img}
                 alt={project.name}
               />
-              <div className={`  p-3  h-full  text-center flex flex-col gap-6`}>
-                <h1 className="font-bold text-4xl">{project.name}</h1>
-                <div className="flex items-center  justify-between  gap-7">
+
+              <div
+                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-45 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
+              >
+                <h1 className="font-bold text-4xl my-5 italic underline text-yellow-400">
+                  {project.name}
+                </h1>
+                <div className="flex items-center justify-center h-full  gap-7">
                   <a
-                    className="border-2 p-2 hover:bg-white hover:text-black transition-all "
+                    className="border-2 font-bold border-yellow-400 p-2 hover:bg-white hover:text-black transition-all "
                     href={project.liveDemo}
                     target="_blank"
                   >
                     Live Demo
                   </a>
                   <a
-                    className="bg-white hover:bg-gray-400 transition-all text-black font-bold p-3"
+                    className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold p-3"
                     href={project.gitHubLink}
                     target="_blank"
                   >
@@ -149,28 +154,34 @@ const ProjectCard = () => {
           );
         })}
       </div>
-      <h1 className="font-bold text-5xl pt-10">JavaScript Projects</h1>
+      <h1 className="font-bold text-5xl pt-10 underline">
+        JavaScript Projects
+      </h1>
 
       <div className="flex items-center justify-center gap-8 my-10  flex-wrap">
         {js_projects.map((js_project) => {
           return (
             <div
               key={js_project.name}
-              className="max-w-[400px] h-[300px] cursor-pointer overflow-hidden hover:scale-[1.07] transition-all flex flex-col gap-7 border-2 border-gray-500 rounded-xl "
+              className="max-w-[400px] relative h-[300px] cursor-pointer overflow-hidden hover:scale-[1.07] transition-all flex flex-col gap-7 border-2 border-gray-500 rounded-xl "
             >
-              <img src={js_project.img} />
-              <div className={` p-3  h-full  text-center flex-col flex gap-6`}>
-                <h1 className="font-bold text-4xl ">{js_project.name}</h1>
-                <div className="flex items-center  justify-between  gap-7">
+              <img className="h-full" src={js_project.img} />
+              <div
+                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-45 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
+              >
+                <h1 className="font-bold text-4xl my-5 italic underline text-yellow-400">
+                  {js_project.name}
+                </h1>
+                <div className="flex items-center h-full justify-center  gap-7">
                   <a
-                    className="border-2 p-2 hover:bg-white hover:text-black transition-all "
+                    className="border-2 font-bold border-yellow-400 p-2 hover:bg-white hover:text-black transition-all "
                     href={js_project.liveDemo}
                     target="_blank"
                   >
                     Live Demo
                   </a>
                   <a
-                    className="bg-white hover:bg-gray-400 transition-all text-black font-bold p-3"
+                    className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold p-3"
                     href={js_project.gitHubLink}
                     target="_blank"
                   >
