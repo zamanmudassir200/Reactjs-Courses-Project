@@ -14,8 +14,8 @@ const Navbar = () => {
         <div className="logo">
           <h2 className="text-2xl tracking-widest">
             <Link to="/" className="text-white text-5xl no-underline">
-              Port
-              <span className="text-orange-500 text-[2.9rem]">folio</span>
+              MUDA
+              <span className="text-orange-500 text-[2.9rem]">SSIR</span>
             </Link>
           </h2>
         </div>
@@ -23,7 +23,6 @@ const Navbar = () => {
           <ul className="flex items-center justify-center list-none text-xl gap-[3.5rem] font-semibold">
             <li className="relative group hover:scale-110 text-2xl transition-transform duration-300 ease-in-out">
               <NavLink
-                exact
                 className={({ isActive }) =>
                   isActive
                     ? "text-orange-400 no-underline pb-4 relative"
@@ -99,7 +98,6 @@ const Navbar = () => {
                 <ul className="flex flex-col items-center justify-center list-none text-xl gap-[3.5rem] font-semibold">
                   <li className="relative group hover:scale-110 text-xl transition-transform duration-300 ease-in-out">
                     <NavLink
-                      exact
                       className={({ isActive }) =>
                         isActive
                           ? "text-orange-400 no-underline pb-4 relative"
