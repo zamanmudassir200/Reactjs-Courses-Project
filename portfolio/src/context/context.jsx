@@ -1,7 +1,7 @@
 // AppContext.js
 import React, { createContext, useState } from "react";
 
-export const AppContext = createContext();
+export const AppContext = createContext(null);
 
 export const AppProvider = ({ children }) => {
   const [showNavItems, setShowNavItems] = useState(false);
