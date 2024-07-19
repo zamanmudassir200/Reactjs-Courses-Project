@@ -2,8 +2,10 @@ import React, { useContext } from "react";
 import styles from "./Home.module.css";
 import Education from "./Education/Education.jsx";
 import { AppContext } from "../context/context.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const { handleHideItems } = useContext(AppContext);
 
   return (
@@ -48,13 +50,19 @@ const Home = () => {
                 into seamless user interfaces
               </p>
             </div>
-            <div className="mt-10 text-center self-center relative ">
+            <div className="mt-10 text-center flex items-center justify-center gap-6 self-center relative ">
               <a
                 href="public/Resume.pdf"
                 target="_blank"
-                className="relative inline-block text-white overflow-hidden font-extrabold text-[1.5rem] px-8 py-4 border-2 border-orange-500 rounded-lg transition-all duration-300 transform hover:scale-[1.02] letter-spacing-[0.4rem] before:absolute self-center before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-orange-500 before:z-[-1] before:transition-left before:duration-700 before:ease-in-out hover:before:left-0  "
+                className="relative  inline-block text-white overflow-hidden font-extrabold text-[1.5rem] px-8 py-4 border-2 border-orange-500 rounded-lg transition-all duration-300 transform hover:scale-[1.02] letter-spacing-[0.4rem] before:absolute self-center before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-orange-500 before:z-[-1] before:transition-left before:duration-700 before:ease-in-out hover:before:left-0  "
               >
                 Download CV
+              </a>
+              <a
+                onClick={() => navigate("/contact")}
+                className="relative inline-block overflow-hidden font-extrabold text-[1.5rem] px-8 py-4 border-2 border-orange-500 bg-orange-500 hover:text-orange-500  text-white cursor-pointer rounded-lg transition-all duration-100 transform hover:scale-[1.02] letter-spacing-[0.4rem] before:absolute self-center before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-white before:z-[-1] before:transition-all before:duration-700 before:ease-in-out hover:before:left-0 "
+              >
+                Hire me
               </a>
             </div>
           </div>
