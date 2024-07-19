@@ -46,7 +46,7 @@ const Contact = () => {
     <section className="bg-[#003d62]" onClick={handleHideItems}>
       <div className="max-w-[1250px] px-10 min-h-screen text-white mx-auto">
         <h1 className="text-6xl underline font-bold pt-[70px] mb-10 text-center">
-          Contact
+          Contact Me
         </h1>
         <div className="max-w-[600px] mx-auto border-2 border-orange-300 my-0 rounded-lg p-8">
           <form
