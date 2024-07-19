@@ -91,7 +91,7 @@ const Navbar = () => {
           <div className=" ">
             <div
               id="wrapper"
-              className={`absolute w-[100%] bg-[#0089b7] ${
+              className={`absolute w-[100%] drop-shadow-xl bg-opacity-90 bg-[#0089b7] ${
                 showNavItems ? "block" : "hidden"
               } md:hidden top-[60px] px-[2rem] py-[40px] right-0`}
             >
