@@ -4,55 +4,55 @@ const ProjectCard = () => {
   const react_projects = [
     {
       name: "Food Recipe",
-      img: "src/components/Projects/images/food-recipe-app.png",
+      img: "./food-recipe-app.png",
       gitHubLink: "https://github.com/zamanmudassir200/Food-Recipe",
       liveDemo: "https://food-recipe-react-by-mmz.netlify.app",
     },
     {
       name: "Todo List Website",
-      img: "src/components/Projects/images/todo-list.png",
+      img: "./todo-list.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/TodoList-App-react/tree/main",
       liveDemo: "https://todo-list-updated-react-by-mmz.netlify.app",
     },
     {
       name: "Expense Tracker",
-      img: "src/components/Projects/images/expense-tracker.png",
+      img: "./expense-tracker.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/Reactjs-Courses-Project/tree/main/ExpenseTrackerAPP",
       liveDemo: "https://expense-tracker-react-app-by-mmz.netlify.app",
     },
     {
       name: "Weather App",
-      img: "src/components/Projects/images/weather-app.png",
+      img: "./weather-app.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/React-Projects/tree/main/WeatherApp",
       liveDemo: "https://weather-app-react-by-mmz.netlify.app",
     },
     {
       name: "Word Counter",
-      img: "src/components/Projects/images/word-counter.png",
+      img: "./word-counter.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/Reactjs-Courses-Project/tree/main/WordCounterApp",
       liveDemo: "https://count-master-react-mmz.netlify.app",
     },
     {
       name: "BMI Caclulator",
-      img: "src/components/Projects/images/bmi-calculator.png",
+      img: "./bmi-calculator.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/Reactjs-Courses-Project/tree/main/BMIcalculatorApp",
       liveDemo: "https://bmi-calculator-react-by-mmz.netlify.app",
     },
     {
       name: "Password Generator",
-      img: "src/components/Projects/images/password-generator.png",
+      img: "./password-generator.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/reactjs-random-password-generator-app/tree/main",
       liveDemo: "https://password-generator-react-by-mmz.netlify.app",
     },
     {
       name: "Calculator App",
-      img: "src/components/Projects/images/calculator.png",
+      img: "./calculator.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/Reactjs-Courses-Project/tree/main/calculator",
       liveDemo: "https://calculator-react-by-mmz.netlify.app",
@@ -61,35 +61,35 @@ const ProjectCard = () => {
   const js_projects = [
     {
       name: "Notes App",
-      img: "src/components/Projects/images/js-projects/notes.png",
+      img: "./notes.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/JavaScript-Projects/tree/main/Notes%20App",
       liveDemo: "https://notes-app-js-by-mmz.netlify.app",
     },
     {
       name: "Todo List",
-      img: "src/components/Projects/images/js-projects/todo-list.png",
+      img: "./todo-list-js.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/JavaScript-Projects/tree/main/Todo%20List",
       liveDemo: "https://todo-list-js-mmz.netlify.app",
     },
     {
       name: "Quote Generator",
-      img: "src/components/Projects/images/js-projects/quote-generator.png",
+      img: "./quote-generator.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/JavaScript-Projects/tree/main/Quote%20Generator",
       liveDemo: "https://quote-generator-js-mmz.netlify.app/",
     },
     {
       name: "Quiz App",
-      img: "src/components/Projects/images/js-projects/quiz.png",
+      img: "./quiz.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/JavaScript-Projects/tree/main/Quiz%20App",
       liveDemo: "https://quiz-app-js-mmz.netlify.app/",
     },
     {
       name: "Password Generator",
-      img: "src/components/Projects/images/js-projects/password-generator.png",
+      img: "./password-generator.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/JavaScript-Projects/tree/main/Random%20Password%20Generator",
       liveDemo: "https://random-password-generator-js-mmz.netlify.app/",
@@ -97,14 +97,14 @@ const ProjectCard = () => {
 
     {
       name: "Color Generator",
-      img: "src/components/Projects/images/js-projects/color-generator.png",
+      img: "./color-generator.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/JavaScript-Projects/tree/main/Color%20Generator",
       liveDemo: "https://color-generator-js-mmz.netlify.app/",
     },
     {
       name: "Load More",
-      img: "src/components/Projects/images/js-projects/load-more-btn.png",
+      img: "./load-more-btn.png",
       gitHubLink:
         "https://github.com/zamanmudassir200/JavaScript-Projects/tree/main/Load%20More",
       liveDemo: "https://load-more-btn-api-js-mmz.netlify.app",
