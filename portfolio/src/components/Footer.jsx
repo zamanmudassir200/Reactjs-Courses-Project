@@ -1,79 +1,12 @@
-// import React from "react";
-// // import styles from "./Footer.module.css";
-// import { FaFacebookF } from "react-icons/fa6";
-// import { FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
-// import { AiFillInstagram } from "react-icons/ai";
-
-// const Footer = () => {
-//   return (
-//     <footer className={styles.footer}>
-//       <div className={styles["footer-content"]}>
-//         <div className={styles.logo}>
-//           <h2>
-//             Port<span>folio</span>
-//           </h2>
-//         </div>
-//         <div className={styles.copyright}>
-//           <p>
-//             © {new Date().getFullYear()} | Muhammad Mudassir Zaman | All rights
-//             reserved.
-//           </p>
-//         </div>
-//         <div className={styles["social-media"]}>
-//           <ul>
-//             <li>
-//               <a
-//                 href="https://github.com/zamanmudassir200?tab=repositories"
-//                 target="_blank"
-//               >
-//                 <FaGithub className="" />
-//               </a>
-//             </li>
-//             <li>
-//               <a
-//                 href="https://www.linkedin.com/in/muhammad-mudassir-zaman-a6722a2b7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-//                 target="_blank"
-//               >
-//                 <FaLinkedin className="" />
-//               </a>
-//             </li>
-//             <li>
-//               <a href="https://www.facebook.com/mudie.abbaxi" target="_blank">
-//                 <FaFacebookF className="" />
-//               </a>
-//             </li>
-
-//             <li>
-//               <a
-//                 href="https://www.instagram.com/mudassirzaman2?igsh=YXY5ZTN1bnd5MWZu"
-//                 target="_blank"
-//               >
-//                 <AiFillInstagram className="" />
-//               </a>
-//             </li>
-//             <li>
-//               <a
-//                 href="https://x.com/ZamanMudassir_2?t=HaSJvg3sijTGj-Pf7gk_Gw&s=09"
-//                 target="_blank"
-//               >
-//                 <FaTwitter className="" />
-//               </a>
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-//     </footer>
-//   );
-// };
-
-// export default Footer;
-
-import React from "react";
+import React, { useContext } from "react";
 import { FaFacebookF } from "react-icons/fa6";
 import { FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { AppContext } from "../context/context.jsx";
 
 const Footer = ({ handleHideItems }) => {
+  // const { handleHideItems } = useContext(AppContext);
   return (
     <footer
       onClick={handleHideItems}
@@ -81,8 +14,11 @@ const Footer = ({ handleHideItems }) => {
     >
       <div className="flex lg:flex-row  gap-10 flex-col max-w-[1000px] mx-auto items-center justify-between py-2">
         <div className="text-3xl font-bold">
-          <h2>
-            Port<span className="text-orange-500 text-3xl">folio</span>
+          <h2 className="text-2xl tracking-widest">
+            <Link to="/" className="text-black text-5xl no-underline">
+              MUDA
+              <span className="text-orange-500 text-[2.9rem]">SSIR</span>
+            </Link>
           </h2>
         </div>
         <div className="text-3xl">
