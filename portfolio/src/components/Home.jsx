@@ -23,7 +23,7 @@ const Home = () => {
               <img
                 src="./profile.jpg"
                 alt="Profile"
-                className=" w-[14rem] sm:w-[20rem] lg:w-[28rem]  inline-block bg-red-400  transition-transform duration-100 will-change-transform"
+                className=" w-[14rem] sm:w-[20rem] lg:w-[28rem]  inline-block transition-transform duration-100 will-change-transform"
               />
             </div>
           </div>
