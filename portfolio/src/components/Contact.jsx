@@ -48,24 +48,20 @@ const Contact = () => {
         <h1 className="text-6xl underline font-bold pt-[70px] mb-10 text-center">
           Contact Me
         </h1>
-        <div className="max-w-[600px] mx-auto border-2 border-orange-300 my-0 rounded-lg p-8">
+        <div className="max-w-[600px] mx-auto border-2 border-orange-300 rounded-lg p-8">
           <form
             onSubmit={onSubmit}
-            className="flex text-black flex-col gap-16 text-3xl"
+            className="flex text-black flex-col gap-6 text-3xl"
           >
             <div className="flex flex-col relative mt-10">
               <label
-                className={`top-4 left-3 absolute select-none transition-all duration-200 ${
-                  name.length > 0
-                    ? "text-white text-3xl -top-10 -left-[0.15rem]"
-                    : "text-3xl text-gray-500"
-                }`}
+                className={`text-white my-1 select-none transition-all duration-200  `}
                 htmlFor="name"
               >
                 Name
               </label>
               <input
-                className="py-4 px-3 text-black focus:outline-orange-700 border-none rounded-lg"
+                className="p-4 text-black focus:outline-orange-700 border-none rounded-lg"
                 id="name"
                 name="name"
                 onChange={(e) => setName(e.target.value)}
@@ -76,17 +72,13 @@ const Contact = () => {
             </div>
             <div className="flex flex-col relative">
               <label
-                className={`top-4 left-3 absolute select-none transition-all duration-200 ${
-                  email.length > 0
-                    ? "text-white text-3xl -top-10 -left-[0.15rem] "
-                    : "text-3xl text-gray-500"
-                }`}
+                className={`text-white my-1 select-none transition-all duration-200  `}
                 htmlFor="email"
               >
                 Email
               </label>
               <input
-                className="py-4 px-3 text-black focus:outline-orange-700 border-none rounded-lg"
+                className="p-4 text-black focus:outline-orange-700 border-none rounded-lg"
                 id="email"
                 name="email"
                 value={email}
@@ -97,17 +89,13 @@ const Contact = () => {
             </div>
             <div className="flex flex-col relative">
               <label
-                className={`top-4 left-3 absolute select-none transition-all duration-200 ${
-                  message.length > 0
-                    ? "text-white text-3xl -top-10 -left-[0.15rem]"
-                    : "text-3xl text-gray-500"
-                }`}
+                className={`text-white my-1 select-none transition-all duration-200  `}
                 htmlFor="message"
               >
                 Message
               </label>
               <textarea
-                className="py-4 px-3  focus:outline-orange-700 border-none rounded-lg"
+                className="p-4 text-black focus:outline-orange-700 border-none rounded-lg"
                 id="message"
                 name="message"
                 value={message}
