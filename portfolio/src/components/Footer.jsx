@@ -17,7 +17,7 @@ const Footer = ({ handleHideItems }) => {
           <h2 className="text-2xl tracking-widest">
             <Link to="/" className="text-black text-5xl no-underline">
               MUDA
-              <span className="text-orange-500 text-[2.9rem]">SSIR</span>
+              <span className="text-orange-500 text-[2.9rem]">SSIR</span>.dev
             </Link>
           </h2>
         </div>
