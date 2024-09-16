@@ -98,6 +98,7 @@ const Navbar = () => {
                 <ul className="flex flex-col items-center justify-center list-none text-xl gap-[3.5rem] font-semibold">
                   <li className="relative group hover:scale-110 text-xl transition-transform duration-300 ease-in-out">
                     <NavLink
+                      onClick={handleHideItems}
                       className={({ isActive }) =>
                         isActive
                           ? "text-orange-400 no-underline pb-4 relative"
@@ -111,6 +112,7 @@ const Navbar = () => {
                   </li>
                   <li className="relative group hover:scale-110 transition-transform duration-300 ease-in-out">
                     <NavLink
+                      onClick={handleHideItems}
                       className={({ isActive }) =>
                         isActive
                           ? "text-orange-500 no-underline pb-4 relative"
@@ -124,6 +126,7 @@ const Navbar = () => {
                   </li>
                   <li className="relative group hover:scale-110 transition-transform duration-300 ease-in-out">
                     <NavLink
+                      onClick={handleHideItems}
                       className={({ isActive }) =>
                         isActive
                           ? "text-orange-500 no-underline pb-4 relative"
@@ -137,6 +140,7 @@ const Navbar = () => {
                   </li>
                   <li className="relative group hover:scale-110 transition-transform duration-300 ease-in-out">
                     <NavLink
+                      onClick={handleHideItems}
                       className={({ isActive }) =>
                         isActive
                           ? "text-orange-500 no-underline pb-4 relative"
