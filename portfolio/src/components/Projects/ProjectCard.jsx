@@ -1,6 +1,15 @@
 import React from "react";
 
 const ProjectCard = () => {
+  const mern_stack_projects = [
+    {
+      name: "E-commerce Website",
+      img: "./ecommerce.png",
+      gitHubLink:
+        "https://github.com/zamanmudassir200/ecommerce-fullstack-design",
+      liveDemo: "https://ecommerce-fullstack-design-navy.vercel.app/",
+    },
+  ];
   const react_projects = [
     {
       name: "Food Recipe",
@@ -112,9 +121,50 @@ const ProjectCard = () => {
   ];
   return (
     <>
+      <h1 className="font-bold text-5xl underline ">Mern stack Projects</h1>
+      <div className="flex items-center justify-start gap-8 my-10  flex-wrap">
+        {mern_stack_projects.map((project) => {
+          return (
+            <div
+              key={project.name}
+              className="max-w-[400px] relative h-[280px] cursor-pointer overflow-hidden hover:scale-[1.07] transition-all flex flex-col gap-7 border-2 border-gray-500 rounded-xl "
+            >
+              <img
+                className="w-full h-full "
+                src={project.img}
+                alt={project.name}
+              />
+
+              <div
+                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-70  duration-300 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
+              >
+                <h1 className="font-bold text-4xl my-5 italic underline text-yellow-400">
+                  {project.name}
+                </h1>
+                <div className="flex items-center justify-center h-full  gap-7">
+                  <a
+                    className="border-2 font-bold border-yellow-400 p-2 hover:bg-white hover:text-black transition-all "
+                    href={project.liveDemo}
+                    target="_blank"
+                  >
+                    Live Demo
+                  </a>
+                  <a
+                    className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold p-3"
+                    href={project.gitHubLink}
+                    target="_blank"
+                  >
+                    Github
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
       <h1 className="font-bold text-5xl underline ">React Projects</h1>
 
-      <div className="flex items-center justify-center gap-8 my-10  flex-wrap">
+      <div className="flex items-center justify-start gap-8 my-10  flex-wrap">
         {react_projects.map((project) => {
           return (
             <div
@@ -158,7 +208,7 @@ const ProjectCard = () => {
         JavaScript Projects
       </h1>
 
-      <div className="flex items-center justify-center gap-8 my-10  flex-wrap">
+      <div className="flex items-center justify-start gap-8 my-10  flex-wrap">
         {js_projects.map((js_project) => {
           return (
             <div

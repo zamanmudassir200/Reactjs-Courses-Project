@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import styles from "./Home.module.css";
+import React, { useContext, useEffect, useState } from "react";
 import Education from "./Education/Education.jsx";
 import { AppContext } from "../context/context.jsx";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +6,45 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const { handleHideItems } = useContext(AppContext);
+  const [displayText, setDisplayText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const textList = [
+    "M.Mudassir Zaman",
+    "MERN Stack Developer",
+    "Frontend Developer",
+    "Backend Developer",
+  ];
 
+  const typingSpeed = 150;
+  const deletingSpeed = 50;
+  const pauseBetween = 2000;
+
+  useEffect(() => {
+    const handleTyping = () => {
+      const currentText = textList[loopNum % textList.length];
+
+      if (isDeleting) {
+        setDisplayText(currentText.substring(0, displayText.length - 1));
+      } else {
+        setDisplayText(currentText.substring(0, displayText.length + 1));
+      }
+
+      if (!isDeleting && displayText === currentText) {
+        setTimeout(() => setIsDeleting(true), pauseBetween);
+      } else if (isDeleting && displayText === "") {
+        setIsDeleting(false);
+        setLoopNum(loopNum + 1);
+      }
+    };
+
+    const timer = setTimeout(
+      handleTyping,
+      isDeleting ? deletingSpeed : typingSpeed
+    );
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, loopNum]);
   return (
     <>
       <section
@@ -16,10 +53,7 @@ const Home = () => {
       >
         <div className="flex lg:flex-row flex-col  items-center justify-center  gap-[1rem]  lg:gap-[4rem]  lg:p-10 max-w-[120rem] mx-auto">
           <div className="">
-            <div
-              className="animate__animated animate__bounceInLeft border-4 border-orange-400 rounded-full shadow-2xl shadow-orange-500  overflow-hidden "
-              style={{ perspective: "700px" }}
-            >
+            <div className="animate__animated animate__bounceInLeft border-4 border-orange-400 rounded-full shadow-2xl shadow-orange-500  overflow-hidden ">
               <img
                 src="./profile.jpg"
                 alt="Profile"
@@ -34,13 +68,12 @@ const Home = () => {
               </span>
               <span className="text-[2.9rem] text-white">, I'm </span>
               <span className="text-[34px] sm:text-[5rem] text-white">
-                M.Mudassir Zaman
+                {loopNum === 0 && displayText}
               </span>
               <span
-                className={`${styles.dev} text-[30px] sm:text-[4.6rem] font-bold text-white border-r-[0.15em] border-orange-500 overflow-hidden whitespace-nowrap mx-auto typing-animation`}
+                className={`text-[30px] sm:text-[4.6rem] font-bold text-white border-r-[0.15em] border-orange-500 overflow-hidden whitespace-nowrap mx-auto typing-animation`}
               >
-                {" "}
-                Frontend Developer
+                {loopNum > 0 && ` ${displayText}`}
               </span>
             </div>
             <div className="mt-5 text-[23px] text-white text-justify max-w-[700px] leading-[35px]">
