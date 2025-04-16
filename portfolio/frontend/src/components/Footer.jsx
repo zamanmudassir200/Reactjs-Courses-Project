@@ -10,7 +10,7 @@ const Footer = ({ handleHideItems }) => {
   return (
     <footer
       onClick={handleHideItems}
-      className="bg-gray-200 text-black text-center py-7 px-3 "
+      className="bg-gray-300 text-black text-center py-7 px-3 "
     >
       <div className="flex lg:flex-row  gap-10 flex-col max-w-[1000px] mx-auto items-center justify-between py-2">
         <div className="text-3xl font-bold">

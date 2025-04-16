@@ -12,7 +12,7 @@ const Home = () => {
   const [loopNum, setLoopNum] = useState(0);
   const textList = [
     "M.Mudassir Zaman",
-    "MERN Stack Developer",
+    "Full Stack Developer",
     "Frontend Developer",
     "Backend Developer",
   ];
