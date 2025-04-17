@@ -73,7 +73,7 @@ export const login = async (req, res) => {
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: isProduction, // use secure in production
-      sameSite: isProduction ? "strict" : "lax", // lax allows local development
+      sameSite: !isProduction ? "strict" : "lax", // lax allows local development
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
