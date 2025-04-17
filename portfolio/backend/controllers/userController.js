@@ -108,7 +108,7 @@ export const login = async (req, res) => {
     const cookieOptions = {
       httpOnly: true,
       secure: isProduction, // Only HTTPS in prod
-      sameSite: isProduction ? "none" : "lax", // Cross-site for Vercel
+      sameSite: !isProduction ? "none" : "lax", // Cross-site for Vercel
       maxAge: 24 * 60 * 60 * 1000,
       path: "/",
     };

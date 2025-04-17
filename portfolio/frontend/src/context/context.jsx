@@ -64,8 +64,6 @@ export const AppProvider = ({ children }) => {
       setProjects(response.data.projects);
     } catch (error) {
       if (error.response?.status === 401) {
-        toast.error("Unauthorized. Please log in to view projects.");
-        navigate("/login");
       } else {
         toast.error("Error occurred during fetching projects");
       }
