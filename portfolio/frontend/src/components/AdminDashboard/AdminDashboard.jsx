@@ -1,14 +1,26 @@
 import React, { useState, useContext, useEffect } from "react";
+import { RiDeleteBin5Fill, RiH1 } from "react-icons/ri";
+
 import { AppContext } from "../../context/context";
 import LogoutModal from "../Logout/LogoutModal";
 import Modal from "./Modal";
 import axios, { AxiosError } from "axios";
 import url from "../../url/url.js";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Add this
+import "react-toastify/dist/ReactToastify.css";
+import DeleteModal from "./DeleteModal.jsx";
 const AdminDashboard = () => {
-  const { checkLoginStatus, showLogoutModal } = useContext(AppContext);
-
+  const {
+    checkLoginStatus,
+    showLogoutModal,
+    getAllCertificates,
+    getAllSkills,
+    getAllProjects,
+    skills,
+    projects,
+    certificates,
+  } = useContext(AppContext);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("projects");
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +37,8 @@ const AdminDashboard = () => {
     skillName: "",
     skillImage: null,
   });
-
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedType, setSelectedType] = useState("");
   const [projectData, setProjectData] = useState({
     projectName: "",
     projectImage: null,
@@ -34,7 +47,6 @@ const AdminDashboard = () => {
     githubLink: "",
     description: "",
   });
-  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     checkLoginStatus();
@@ -62,20 +74,44 @@ const AdminDashboard = () => {
     }));
   };
 
-  const getAllProjects = async () => {
-    try {
-      const response = await axios.get(`${url}/projects`, {
-        withCredentials: true,
-      });
-      console.log("response from getAllProjects", response.data.projects);
-      setProjects(response.data.projects);
-    } catch (error) {
-      toast.error("Error occured during fetching projects");
-    }
-  };
   useEffect(() => {
     getAllProjects();
+    getAllCertificates();
+    getAllSkills();
   }, []);
+
+  const handleDeleteConfirmed = async () => {
+    if (!selectedItem || !selectedType) return;
+
+    try {
+      await axios.delete(`${url}/${selectedType}/${selectedItem._id}`, {
+        withCredentials: true,
+      });
+
+      toast.success(`${selectedType} deleted successfully!`);
+
+      // Update UI
+      if (selectedType === "skills") {
+        setSkills((prev) =>
+          prev.filter((item) => item._id !== selectedItem._id)
+        );
+      } else if (selectedType === "projects") {
+        setProjects((prev) =>
+          prev.filter((item) => item._id !== selectedItem._id)
+        );
+      } else if (selectedType === "certificates") {
+        setCertificates((prev) =>
+          prev.filter((item) => item._id !== selectedItem._id)
+        );
+      }
+    } catch (error) {
+      toast.error("Error deleting item");
+    } finally {
+      setDeleteModalOpen(false);
+      setSelectedItem(null);
+      setSelectedType("");
+    }
+  };
 
   const handleSubmitProject = async () => {
     setLoading(true);
@@ -354,6 +390,9 @@ const AdminDashboard = () => {
         </div>
         {/* <div>List of {activeTab} will be displayed here...</div> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+          {projects.length === 0 && (
+            <h1 className="text-2xl text-red-500">No projects found!</h1>
+          )}
           {projects &&
             projects.length > 0 &&
             activeTab === "projects" &&
@@ -364,7 +403,7 @@ const AdminDashboard = () => {
               return (
                 <div
                   key={project._id}
-                  className="bg-white rounded-2xl shadow-md overflow-hidden border-2 border-gray-400 transition-transform transform hover:scale-105 flex flex-col h-[500px]"
+                  className="relative bg-white rounded-2xl shadow-md border-2 border-gray-400 transition-transform transform hover:scale-105 flex flex-col h-[500px]"
                 >
                   <div className="h-[50%] w-full border-b-2 overflow-hidden">
                     <img
@@ -416,12 +455,96 @@ const AdminDashboard = () => {
                         <strong>Project Type:</strong> {project.projectType}
                       </p>
                     </div>
+                    <div
+                      onClick={() => {
+                        setSelectedItem(project);
+                        setSelectedType("projects");
+                        setDeleteModalOpen(true);
+                      }}
+                      className="absolute z-30 -top-5 -right-5 cursor-pointer"
+                    >
+                      <RiDeleteBin5Fill className="text-red-500" size={29} />
+                    </div>
                   </div>
                 </div>
               );
             })}
-          {activeTab === "certificates" && <h1>no certificates yet</h1>}
-          {activeTab === "skills" && <h1>no skills yet</h1>}
+          {certificates.length === 0 && (
+            <h1 className="text-2xl text-red-500">No certificates found!</h1>
+          )}
+          {certificates &&
+            certificates.length > 0 &&
+            activeTab === "certificates" &&
+            certificates.map((certificate) => (
+              <div
+                key={certificate._id}
+                className="relative bg-white border-2 border-gray-300  shadow-md rounded-lg p-4 mb-4"
+              >
+                <div className="w-full h-100 overflow-hidden ">
+                  <img
+                    src={certificate.certificateImage}
+                    alt={certificate.certificateName}
+                    className="w-full h-full object-contain rounded "
+                  />
+                </div>
+                <h3 className="my-7 text-4xl font-bold capitalize">
+                  {certificate.certificateName}
+                </h3>
+                <p className="text-3xl text-gray-600">
+                  <strong>From:</strong> {certificate.certificateFrom} <br />
+                  <strong>By:</strong> {certificate.certificateBy}
+                </p>
+                <a
+                  href={certificate.certificateLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-2xl underline mt-2 inline-block"
+                >
+                  View Certificate
+                </a>
+                <div
+                  onClick={() => {
+                    setSelectedItem(certificate); // or project/certificate
+                    setSelectedType("certificates");
+                    setDeleteModalOpen(true);
+                  }}
+                  className="absolute -top-5 -right-5 cursor-pointer"
+                >
+                  <RiDeleteBin5Fill className="text-red-500" size={29} />
+                </div>
+              </div>
+            ))}
+          {skills.length === 0 && (
+            <h1 className=" text-2xl text-red-500">No skills found!</h1>
+          )}
+          {skills &&
+            skills.length > 0 &&
+            activeTab === "skills" &&
+            skills.map((skill) => (
+              <div
+                key={skill._id}
+                className="relative border-2 border-gray-300 bg-white shadow-lg rounded p-4 mb-4 flex flex-col gap-2 items-center justify-between space-x-4"
+              >
+                <div className="w-full h-full overflow-hidden ">
+                  <img
+                    src={skill.skillImage}
+                    alt={skill.skillName}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <h3 className="text-3xl font-semibold">{skill.skillName}</h3>
+                <div
+                  onClick={() => {
+                    setSelectedItem(skill);
+                    setSelectedType("skills");
+                    setDeleteModalOpen(true);
+                  }}
+                  className="absolute -top-5 -right-5 cursor-pointer"
+                >
+                  <RiDeleteBin5Fill className="text-red-500" size={29} />
+                </div>
+              </div>
+            ))}
         </div>
       </div>
       {/* Modal for adding project */}
@@ -439,6 +562,18 @@ const AdminDashboard = () => {
       </Modal>
 
       {showLogoutModal && <LogoutModal />}
+      {deleteModalOpen && (
+        <DeleteModal
+          isOpen={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onConfirm={() => handleDeleteConfirmed()}
+          itemName={
+            selectedItem?.skillName ||
+            selectedItem?.projectName ||
+            selectedItem?.certificateName
+          }
+        />
+      )}
     </div>
   );
 };

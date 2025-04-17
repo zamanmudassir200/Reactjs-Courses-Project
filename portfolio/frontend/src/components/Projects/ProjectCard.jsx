@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AppContext } from "../../context/context";
 
 const ProjectCard = () => {
@@ -120,13 +120,17 @@ const ProjectCard = () => {
       liveDemo: "https://load-more-btn-api-js-mmz.netlify.app",
     },
   ];
-  const { projects } = useContext(AppContext);
-
+  const { projects, getAllProjects } = useContext(AppContext);
+  useEffect(() => {
+    getAllProjects();
+  }, []);
   return (
     <>
       <h1 className="font-bold text-5xl underline ">Mern stack Projects</h1>
       <div className="flex items-center justify-start gap-8 my-10 flex-wrap">
-        {projects.filter(
+        {projects &&
+        projects.length > 0 &&
+        projects.filter(
           (project) => project.projectType.toLowerCase() === "mern stack"
         ).length > 0 ? (
           projects

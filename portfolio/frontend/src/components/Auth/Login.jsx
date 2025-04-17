@@ -23,14 +23,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Form Data:", formData);
 
     try {
       const response = await axios.post(`${url}/users/login`, formData, {
         withCredentials: true,
       });
 
-      console.log("Login successful:", response.data);
       setUser(response.data); // ✅ storing user response
 
       setSuccess("Login Successful.");
@@ -39,11 +37,10 @@ const Login = () => {
         navigate("/admin-dashboard");
       }, 1500);
     } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
-
-      toast.error(error.response?.data?.message || "Login failed", {
+      toast.error(error.response?.data?.message, {
         position: "top-right",
         autoClose: 2000,
+        fontSize: "18px",
       });
     }
   };
@@ -104,7 +101,7 @@ const Login = () => {
       </form>
 
       {/* Toast container */}
-      <ToastContainer />
+      <ToastContainer style={{ fontSize: "17px" }} />
     </div>
   );
 };

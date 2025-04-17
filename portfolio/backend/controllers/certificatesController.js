@@ -51,7 +51,7 @@ export const getAllCertificates = async (req, res) => {
     const certificates = await certificatesModel.find({});
     return res.status(200).json({
       success: true,
-      data: certificates,
+      certificates: certificates,
     });
   } catch (error) {
     return res.status(500).json({ message: `Server error ${error}` });

@@ -11,6 +11,8 @@ export const AppProvider = ({ children }) => {
   const [showNavIcon, setShowNavIcon] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [certificates, setCertificates] = useState([]);
+  const [skills, setSkills] = useState([]);
 
   const [showLogoutModal, setShowLogoutModal] = useState(false); // New state for the modal
   const navigate = useNavigate();
@@ -61,7 +63,6 @@ export const AppProvider = ({ children }) => {
       const response = await axios.get(`${url}/projects`, {
         withCredentials: true,
       });
-      console.log("response from getAllProjects", response.data.projects);
       setProjects(response.data.projects);
     } catch (error) {
       if (error.response?.status === 401) {
@@ -70,9 +71,31 @@ export const AppProvider = ({ children }) => {
       }
     }
   };
-  useEffect(() => {
-    getAllProjects();
-  }, []);
+
+  const getAllCertificates = async () => {
+    try {
+      const response = await axios.get(`${url}/certificates`, {
+        withCredentials: true,
+      });
+      console.log("cert", response);
+
+      setCertificates(response.data.certificates);
+    } catch (error) {
+      toast.error("Error occured during fetching projects");
+    }
+  };
+  const getAllSkills = async () => {
+    try {
+      const response = await axios.get(`${url}/skills`, {
+        withCredentials: true,
+      });
+
+      setSkills(response.data.skills);
+    } catch (error) {
+      toast.error("Error occured during fetching projects");
+    }
+  };
+
   const openLogoutModal = () => setShowLogoutModal(true);
   const closeLogoutModal = () => setShowLogoutModal(false);
 
@@ -80,11 +103,16 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         showNavItems,
+        skills,
+        setSkills,
         showNavIcon,
         getAllProjects,
         handleShowItems,
         checkLoginStatus,
         handleHideItems,
+        certificates,
+        getAllCertificates,
+        getAllSkills,
         isLoggedIn,
         setIsLoggedIn,
         logout,

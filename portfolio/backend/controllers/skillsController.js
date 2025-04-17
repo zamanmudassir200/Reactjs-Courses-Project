@@ -42,7 +42,7 @@ export const getAllSkills = async (req, res) => {
     return res.status(200).json({
       message: "All skills fetched successfully",
       success: true,
-      data: skills,
+      skills: skills,
     });
   } catch (error) {
     return res
