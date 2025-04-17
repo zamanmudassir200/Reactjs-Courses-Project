@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { RxCross1 } from "react-icons/rx";
 import { AppContext } from "../context/context";
+import LogoutModal from "./Logout/LogoutModal";
 
 const Navbar = () => {
   const {
@@ -11,6 +12,7 @@ const Navbar = () => {
     handleShowItems,
     handleHideItems,
     isLoggedIn,
+    showLogoutModal,
     openLogoutModal,
   } = useContext(AppContext);
 
@@ -134,6 +136,7 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+      {showLogoutModal && <LogoutModal />}
     </header>
   );
 };

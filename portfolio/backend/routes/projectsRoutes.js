@@ -11,7 +11,7 @@ import upload from "../middlewares/multer.js";
 const router = express.Router();
 
 router.post("/", protect, upload.single("projectImage"), addProject);
-router.get("/", protect, getAllProjects);
+router.get("/", getAllProjects);
 router.delete("/:id", protect, deleteProject);
 router.patch("/:id", protect, upload.single("projectImage"), editProject);
 

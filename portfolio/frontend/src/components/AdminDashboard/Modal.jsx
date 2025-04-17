@@ -1,6 +1,14 @@
 import React from "react";
 
-const Modal = ({ isOpen, title, children, onClose, onSubmit }) => {
+const Modal = ({
+  loading,
+  isOpen,
+  title,
+  children,
+  onClose,
+  onSubmit,
+  activeTab,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -27,10 +35,11 @@ const Modal = ({ isOpen, title, children, onClose, onSubmit }) => {
           </button>
           <button
             type="button"
+            disabled={loading}
             onClick={onSubmit}
             className="px-4 py-2 text-2xl bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
-            Submit
+            {loading ? "Submitting..." : `Add ${activeTab.slice(0, -1)}`}
           </button>
         </div>
       </div>

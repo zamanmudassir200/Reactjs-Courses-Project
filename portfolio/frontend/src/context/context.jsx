@@ -32,6 +32,7 @@ export const AppProvider = ({ children }) => {
       // If logged in, it will show the user details
       setIsLoggedIn(true);
     } catch (error) {
+      navigate("/");
       console.log("Not logged in:", error.response?.data?.message);
     }
   };

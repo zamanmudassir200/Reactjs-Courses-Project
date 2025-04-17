@@ -7,11 +7,25 @@ import url from "../../url/url.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Add this
 const AdminDashboard = () => {
-  const { checkLoginStatus, setShowLogoutModal, showLogoutModal } =
-    useContext(AppContext);
+  const { checkLoginStatus, showLogoutModal } = useContext(AppContext);
 
   const [activeTab, setActiveTab] = useState("projects");
+  const [loading, setLoading] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
+  const [certificateData, setCertificateData] = useState({
+    certificateName: "",
+    certificateImage: null,
+    certificateLink: "",
+    certificateFrom: "",
+    certificateBy: "",
+  });
+
+  const [skillData, setSkillData] = useState({
+    skillName: "",
+    skillImage: null,
+  });
+
   const [projectData, setProjectData] = useState({
     projectName: "",
     projectImage: null,
@@ -33,7 +47,38 @@ const AdminDashboard = () => {
       [name]: files ? files[0] : value,
     }));
   };
-  const handleSubmit = async () => {
+  const handleCertInputChange = (e) => {
+    const { name, value, files } = e.target;
+    setCertificateData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
+  const handleSkillsInputChange = (e) => {
+    const { name, value, files } = e.target;
+    setSkillData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
+  const getAllProjects = async () => {
+    try {
+      const response = await axios.get(`${url}/projects`, {
+        withCredentials: true,
+      });
+      console.log("response from getAllProjects", response.data.projects);
+      setProjects(response.data.projects);
+    } catch (error) {
+      toast.error("Error occured during fetching projects");
+    }
+  };
+  useEffect(() => {
+    getAllProjects();
+  }, []);
+
+  const handleSubmitProject = async () => {
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("projectName", projectData.projectName);
@@ -51,7 +96,6 @@ const AdminDashboard = () => {
       });
 
       toast.success("Project added successfully!");
-
       setProjectData({
         projectName: "",
         projectImage: null,
@@ -63,28 +107,98 @@ const AdminDashboard = () => {
 
       setTimeout(() => {
         setShowModal(false);
-      }, 2000);
+      }, 1500);
     } catch (error) {
-      if (AxiosError(error)) {
-        toast.error(error.response?.data?.message || "Something went wrong!");
-      }
+      const err =
+        error instanceof AxiosError
+          ? error.response?.data?.message || "Something went wrong"
+          : "Something went wrong";
+      toast.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const getAllProjects = async () => {
+  const handleSubmitCertificate = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(`${url}/projects`, {
+      const formData = new FormData();
+      formData.append("certificateName", certificateData.certificateName);
+      formData.append("certificateImage", certificateData.certificateImage);
+      formData.append("certificateLink", certificateData.certificateLink);
+      formData.append("certificateFrom", certificateData.certificateFrom);
+      formData.append("certificateBy", certificateData.certificateBy);
+
+      await axios.post(`${url}/certificates/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
         withCredentials: true,
       });
-      console.log("response from getAllProjects", response.data.projects);
-      setProjects(response.data.projects);
+
+      toast.success("Certificate added!");
+      setCertificateData({
+        certificateName: "",
+        certificateImage: null,
+        certificateLink: "",
+        certificateFrom: "",
+        certificateBy: "",
+      });
+
+      setTimeout(() => {
+        setShowModal(false);
+      }, 1500);
     } catch (error) {
-      toast.error("Error occured during fetching projects");
+      const err =
+        error instanceof AxiosError
+          ? error.response?.data?.message || "Something went wrong"
+          : "Something went wrong";
+      toast.error(err);
+    } finally {
+      setLoading(false);
     }
   };
-  useEffect(() => {
-    getAllProjects();
-  }, [projects]);
+
+  const handleSubmitSkill = async () => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("skillName", skillData.skillName);
+      formData.append("skillImage", skillData.skillImage);
+
+      await axios.post(`${url}/skills/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
+
+      toast.success("Skill added!");
+      setSkillData({
+        skillName: "",
+        skillImage: null,
+      });
+
+      setTimeout(() => {
+        setShowModal(false);
+      }, 1500);
+    } catch (error) {
+      const err =
+        error instanceof AxiosError
+          ? error.response?.data?.message || "Something went wrong"
+          : "Something went wrong";
+      toast.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (activeTab === "projects") return handleSubmitProject();
+    if (activeTab === "certificates") return handleSubmitCertificate();
+    if (activeTab === "skills") return handleSubmitSkill();
+  };
+
   const renderModalFields = () => (
     <form className="space-y-4">
       <input
@@ -135,6 +249,67 @@ const AdminDashboard = () => {
       />
     </form>
   );
+  const renderCertificatesFields = () => (
+    <form className="space-y-4">
+      <input
+        type="text"
+        name="certificateName"
+        placeholder="Certificate Name"
+        value={certificateData.certificateName}
+        onChange={handleCertInputChange}
+        className="w-full text-2xl border p-2 rounded"
+      />
+      <input
+        type="file"
+        name="certificateImage"
+        onChange={handleCertInputChange}
+        className="w-full text-2xl border p-2 rounded"
+      />
+      <input
+        type="text"
+        name="certificateLink"
+        placeholder="Certificate Link"
+        value={certificateData.certificateLink}
+        onChange={handleCertInputChange}
+        className="w-full text-2xl border p-2 rounded"
+      />
+      <input
+        type="text"
+        name="certificateFrom"
+        placeholder="Issued From"
+        value={certificateData.certificateFrom}
+        onChange={handleCertInputChange}
+        className="w-full text-2xl border p-2 rounded"
+      />
+      <input
+        type="text"
+        name="certificateBy"
+        placeholder="Issued By"
+        value={certificateData.certificateBy}
+        onChange={handleCertInputChange}
+        className="w-full text-2xl border p-2 rounded"
+      />
+    </form>
+  );
+
+  const renderSkillsFields = () => (
+    <form className="space-y-4">
+      <input
+        type="text"
+        name="skillName"
+        placeholder="Skill Name"
+        value={skillData.skillName}
+        onChange={handleSkillsInputChange}
+        className="w-full text-2xl border p-2 rounded"
+      />
+      <input
+        type="file"
+        name="skillImage"
+        onChange={handleSkillsInputChange}
+        className="w-full text-2xl border p-2 rounded"
+      />
+    </form>
+  );
 
   const [expanded, setExpanded] = useState({}); // to track which project is expanded
 
@@ -181,6 +356,7 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
           {projects &&
             projects.length > 0 &&
+            activeTab === "projects" &&
             projects.map((project) => {
               const isExpanded = expanded[project._id];
               const isLong = project.description.length > 200;
@@ -244,6 +420,8 @@ const AdminDashboard = () => {
                 </div>
               );
             })}
+          {activeTab === "certificates" && <h1>no certificates yet</h1>}
+          {activeTab === "skills" && <h1>no skills yet</h1>}
         </div>
       </div>
       {/* Modal for adding project */}
@@ -252,8 +430,12 @@ const AdminDashboard = () => {
         title={`Add ${activeTab.slice(0, -1)}`}
         onClose={() => setShowModal(false)}
         onSubmit={handleSubmit}
+        activeTab={activeTab}
+        loading={loading}
       >
         {activeTab === "projects" && renderModalFields()}
+        {activeTab === "certificates" && renderCertificatesFields()}
+        {activeTab === "skills" && renderSkillsFields()}
       </Modal>
 
       {showLogoutModal && <LogoutModal />}
