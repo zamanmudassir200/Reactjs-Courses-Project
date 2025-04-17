@@ -87,6 +87,7 @@ export const AppProvider = ({ children }) => {
         openLogoutModal, // Provide function to open modal
         closeLogoutModal, // Provide function to close modal
         projects,
+        checkLoginStatus,
         setProjects,
       }}
     >

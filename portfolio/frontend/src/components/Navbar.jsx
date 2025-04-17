@@ -11,7 +11,6 @@ const Navbar = () => {
     handleShowItems,
     handleHideItems,
     isLoggedIn,
-
     openLogoutModal,
   } = useContext(AppContext);
 

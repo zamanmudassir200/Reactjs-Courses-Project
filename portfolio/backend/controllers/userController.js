@@ -64,13 +64,17 @@ export const login = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Invalid email or password" });
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    const isProduction = process.env.NODE_ENV === "production";
 
     res.cookie("accessToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 1 * 24 * 60 * 60 * 1000,
+      secure: isProduction, // use secure in production
+      sameSite: isProduction ? "strict" : "lax", // lax allows local development
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
     return res.status(200).json({ message: "Login successful", user });
