@@ -49,36 +49,95 @@ export const register = async (req, res) => {
   }
 };
 
+// export const login = async (req, res) => {
+//   try {
+//     const { error } = loginValidation.validate(req.body);
+//     if (error)
+//       return res.status(400).json({ message: error.details[0].message });
+
+//     const { email, password } = req.body;
+//     const user = await User.findOne({ email });
+//     if (!user)
+//       return res.status(400).json({ message: "Invalid email or password" });
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch)
+//       return res.status(400).json({ message: "Invalid email or password" });
+
+//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: "1d",
+//     });
+
+//     const isProduction = process.env.NODE_ENV === "production";
+
+//     res.cookie("accessToken", token, {
+//       httpOnly: true,
+//       secure: isProduction, // use secure in production
+//       sameSite: isProduction ? "strict" : "lax", // lax allows local development
+//       maxAge: 24 * 60 * 60 * 1000, // 1 day
+//     });
+
+//     return res.status(200).json({ message: "Login successful", user });
+//   } catch (err) {
+//     return res.status(500).json({ message: `Server Error: ${err.message}` });
+//   }
+// };
+
 export const login = async (req, res) => {
   try {
+    // Validate incoming request
     const { error } = loginValidation.validate(req.body);
     if (error)
       return res.status(400).json({ message: error.details[0].message });
 
     const { email, password } = req.body;
+
+    // Check if user exists
     const user = await User.findOne({ email });
     if (!user)
       return res.status(400).json({ message: "Invalid email or password" });
 
+    // Check if password matches
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Invalid email or password" });
 
+    // Generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
+    // Cookie configuration based on environment
     const isProduction = process.env.NODE_ENV === "production";
-
-    res.cookie("accessToken", token, {
+    const cookieOptions = {
       httpOnly: true,
-      secure: isProduction, // use secure in production
-      sameSite: isProduction ? "strict" : "lax", // lax allows local development
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax", // 'none' for cross-origin cookies in prod
       maxAge: 24 * 60 * 60 * 1000, // 1 day
-    });
+      path: "/",
+    };
 
-    return res.status(200).json({ message: "Login successful", user });
+    // Add domain in production only if set
+    if (isProduction && process.env.PRODUCTION_DOMAIN) {
+      cookieOptions.domain = process.env.PRODUCTION_DOMAIN;
+    }
+
+    // Set cookie
+    res.cookie("accessToken", token, cookieOptions);
+
+    // Send response
+    return res.status(200).json({
+      message: "Login successful",
+      user: {
+        id: user._id,
+        email: user.email,
+        userType: user.userType,
+        wishList: user.wishList,
+      },
+      success: true,
+    });
   } catch (err) {
+    console.error("Login Error:", err);
     return res.status(500).json({ message: `Server Error: ${err.message}` });
   }
 };
