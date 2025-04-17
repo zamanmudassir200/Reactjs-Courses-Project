@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import url from "../url/url";
+import url from "../url/url.js";
 import { useNavigate } from "react-router-dom";
 
 export const AppContext = createContext(null);
