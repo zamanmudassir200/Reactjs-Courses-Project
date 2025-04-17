@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import url from "../url/url.js";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"; // ensure it's imported
 
 export const AppContext = createContext(null);
 
@@ -62,7 +63,12 @@ export const AppProvider = ({ children }) => {
       console.log("response from getAllProjects", response.data.projects);
       setProjects(response.data.projects);
     } catch (error) {
-      toast.error("Error occured during fetching projects");
+      if (error.response?.status === 401) {
+        toast.error("Unauthorized. Please log in to view projects.");
+        navigate("/login");
+      } else {
+        toast.error("Error occurred during fetching projects");
+      }
     }
   };
   useEffect(() => {
@@ -87,7 +93,7 @@ export const AppProvider = ({ children }) => {
         openLogoutModal, // Provide function to open modal
         closeLogoutModal, // Provide function to close modal
         projects,
-        checkLoginStatus,
+
         setProjects,
       }}
     >
