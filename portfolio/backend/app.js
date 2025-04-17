@@ -33,6 +33,10 @@ app.use("/users", userRoutes);
 app.use("/projects", projectsRoutes);
 app.use("/certificates", certificatesRoutes);
 app.use("/skills", skillsRoutes);
+
+app.get("/", (req, res) => {
+  res.send("welcome");
+});
 app.listen(process.env.PORT, () => {
   console.log(`Server is started on port ${process.env.PORT}`);
 });
