@@ -20,12 +20,4 @@ router.get("/verify-email", verifyEmail);
 // Route to check if the user is logged in
 router.get("/is-logged-in", isLoggedIn); // This will check the login status
 
-// Example of a protected route
-router.get("/profile", protect, (req, res) => {
-  res.json({
-    message: "This is a protected profile route",
-    userId: req.user.id,
-  });
-});
-
 export default router;

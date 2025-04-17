@@ -8,7 +8,6 @@ import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import Login from "./components/Auth/Login.jsx";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
-import { ToastContainer } from "react-toastify";
 const App = () => {
   return (
     <>
@@ -38,7 +37,6 @@ const App = () => {
       <div>
         <Footer />
       </div>
-      <ToastContainer />
     </>
   );
 };

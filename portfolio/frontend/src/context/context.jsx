@@ -9,6 +9,8 @@ export const AppProvider = ({ children }) => {
   const [showNavItems, setShowNavItems] = useState(false);
   const [showNavIcon, setShowNavIcon] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [projects, setProjects] = useState([]);
+
   const [showLogoutModal, setShowLogoutModal] = useState(false); // New state for the modal
   const navigate = useNavigate();
   const handleShowItems = () => {
@@ -52,6 +54,20 @@ export const AppProvider = ({ children }) => {
       );
     }
   };
+  const getAllProjects = async () => {
+    try {
+      const response = await axios.get(`${url}/projects`, {
+        withCredentials: true,
+      });
+      console.log("response from getAllProjects", response.data.projects);
+      setProjects(response.data.projects);
+    } catch (error) {
+      toast.error("Error occured during fetching projects");
+    }
+  };
+  useEffect(() => {
+    getAllProjects();
+  }, []);
   const openLogoutModal = () => setShowLogoutModal(true);
   const closeLogoutModal = () => setShowLogoutModal(false);
 
@@ -60,6 +76,7 @@ export const AppProvider = ({ children }) => {
       value={{
         showNavItems,
         showNavIcon,
+        getAllProjects,
         handleShowItems,
         checkLoginStatus,
         handleHideItems,
@@ -69,6 +86,8 @@ export const AppProvider = ({ children }) => {
         showLogoutModal, // Provide modal visibility state
         openLogoutModal, // Provide function to open modal
         closeLogoutModal, // Provide function to close modal
+        projects,
+        setProjects,
       }}
     >
       {children}

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../../context/context";
 
 const ProjectCard = () => {
   const mern_stack_projects = [
@@ -119,129 +120,187 @@ const ProjectCard = () => {
       liveDemo: "https://load-more-btn-api-js-mmz.netlify.app",
     },
   ];
+  const { projects } = useContext(AppContext);
+
   return (
     <>
       <h1 className="font-bold text-5xl underline ">Mern stack Projects</h1>
-      <div className="flex items-center justify-start gap-8 my-10  flex-wrap">
-        {mern_stack_projects.map((project) => {
-          return (
-            <div
-              key={project.name}
-              className="max-w-[400px] relative h-[280px] cursor-pointer overflow-hidden hover:scale-[1.07] transition-all flex flex-col gap-7 border-2 border-gray-500 rounded-xl "
-            >
-              <img
-                className="w-full h-full "
-                src={project.img}
-                alt={project.name}
-              />
-
+      <div className="flex items-center justify-start gap-8 my-10 flex-wrap">
+        {projects.filter(
+          (project) => project.projectType.toLowerCase() === "mern stack"
+        ).length > 0 ? (
+          projects
+            .filter(
+              (project) => project.projectType.toLowerCase() === "mern stack"
+            )
+            .map((project) => (
               <div
-                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-70  duration-300 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
+                key={project._id}
+                className="max-w-[400px] bg-white rounded-xl border-2 border-gray-500 overflow-hidden shadow-lg"
               >
-                <h1 className="font-bold text-4xl my-5 italic underline text-yellow-400">
-                  {project.name}
-                </h1>
-                <div className="flex items-center justify-center h-full  gap-7">
-                  <a
-                    className="border-2 font-bold border-yellow-400 p-2 hover:bg-white hover:text-black transition-all "
-                    href={project.liveDemo}
-                    target="_blank"
-                  >
-                    Live Demo
-                  </a>
-                  <a
-                    className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold p-3"
-                    href={project.gitHubLink}
-                    target="_blank"
-                  >
-                    Github
-                  </a>
+                {/* Image with Hover Buttons */}
+                <div className="relative h-[220px] overflow-hidden group">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={project.projectImage}
+                    alt={project.projectName}
+                  />
+
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-all flex cursor-pointer items-center justify-center duration-300 gap-4">
+                    <a
+                      className="border-2 font-bold border-yellow-400 px-3 py-1 hover:bg-white hover:text-black transition-all rounded"
+                      href={project.liveDemoLink}
+                      target="_blank"
+                    >
+                      Live Demo
+                    </a>
+                    <a
+                      className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold px-3 py-1 rounded"
+                      href={project.githubLink}
+                      target="_blank"
+                    >
+                      Github
+                    </a>
+                  </div>
+                </div>
+
+                {/* Project Info */}
+                <div className="p-4 text-black">
+                  <h1 className="font-bold text-4xl capitalize italic  text-center underline text-yellow-600 my-2">
+                    {project.projectName}
+                  </h1>
+                  <p className="text-3xl text-justify tracking-widest leading-10 my-6 text-gray-700">
+                    {project.description}
+                  </p>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            ))
+        ) : (
+          <h1 className="text-3xl text-red-500">
+            No projects of MERN stack found
+          </h1>
+        )}
       </div>
+
       <h1 className="font-bold text-5xl underline ">React Projects</h1>
 
-      <div className="flex items-center justify-start gap-8 my-10  flex-wrap">
-        {react_projects.map((project) => {
-          return (
-            <div
-              key={project.name}
-              className="max-w-[400px] relative h-[280px] cursor-pointer overflow-hidden hover:scale-[1.07] transition-all flex flex-col gap-7 border-2 border-gray-500 rounded-xl "
-            >
-              <img
-                className="w-full h-full "
-                src={project.img}
-                alt={project.name}
-              />
-
+      <div className="flex items-center justify-start gap-8 my-10 flex-wrap">
+        {projects.filter(
+          (project) => project.projectType.toLowerCase() === "react"
+        ).length > 0 ? (
+          projects
+            .filter((project) => project.projectType.toLowerCase() === "react")
+            .map((project) => (
               <div
-                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-70  duration-300 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
+                key={project._id}
+                className="max-w-[400px] bg-white rounded-xl border-2 border-gray-500 overflow-hidden shadow-lg"
               >
-                <h1 className="font-bold text-4xl my-5 italic underline text-yellow-400">
-                  {project.name}
-                </h1>
-                <div className="flex items-center justify-center h-full  gap-7">
-                  <a
-                    className="border-2 font-bold border-yellow-400 p-2 hover:bg-white hover:text-black transition-all "
-                    href={project.liveDemo}
-                    target="_blank"
-                  >
-                    Live Demo
-                  </a>
-                  <a
-                    className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold p-3"
-                    href={project.gitHubLink}
-                    target="_blank"
-                  >
-                    Github
-                  </a>
+                {/* Image with Hover Buttons */}
+                <div className="relative h-[220px] overflow-hidden group">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={project.projectImage}
+                    alt={project.projectName}
+                  />
+
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-4">
+                    <a
+                      className="border-2 font-bold border-yellow-400 px-3 py-1 hover:bg-white hover:text-black transition-all rounded"
+                      href={project.liveDemoLink}
+                      target="_blank"
+                    >
+                      Live Demo
+                    </a>
+                    <a
+                      className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold px-3 py-1 rounded"
+                      href={project.githubLink}
+                      target="_blank"
+                    >
+                      Github
+                    </a>
+                  </div>
+                </div>
+
+                {/* Project Info */}
+                <div className="p-4 text-black">
+                  <h1 className="font-bold text-4xl capitalize italic underline text-yellow-600 mb-2">
+                    {project.projectName}
+                  </h1>
+                  <p className="text-3xl text-justify tracking-widest leading-10 my-6 text-gray-700">
+                    {" "}
+                    {project.description}
+                  </p>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            ))
+        ) : (
+          <h1 className="text-3xl text-red-500">No projects of React found</h1>
+        )}
       </div>
+
       <h1 className="font-bold text-5xl pt-10 underline">
         JavaScript Projects
       </h1>
 
-      <div className="flex items-center justify-start gap-8 my-10  flex-wrap">
-        {js_projects.map((js_project) => {
-          return (
-            <div
-              key={js_project.name}
-              className="max-w-[400px] relative h-[300px] cursor-pointer overflow-hidden hover:scale-[1.07] transition-all flex flex-col gap-7 border-2 border-gray-500 rounded-xl "
-            >
-              <img className="h-full" src={js_project.img} />
+      <div className="flex items-center justify-start gap-8 my-10 flex-wrap">
+        {projects.filter(
+          (project) => project.projectType.toLowerCase() === "javascript"
+        ).length > 0 ? (
+          projects
+            .filter(
+              (project) => project.projectType.toLowerCase() === "javascript"
+            )
+            .map((project) => (
               <div
-                className={` absolute  p-3 top-0 drop-shadow-lg bg-opacity-70 duration-300 translate-y-[80%] hover:translate-y-0 transition-all left-0  bg-black  w-full h-full text-center flex-col  gap-6`}
+                key={project._id}
+                className="max-w-[400px] bg-white rounded-xl border-2 border-gray-500 overflow-hidden shadow-lg"
               >
-                <h1 className="font-bold text-4xl my-5 italic underline text-yellow-400">
-                  {js_project.name}
-                </h1>
-                <div className="flex items-center h-full justify-center  gap-7">
-                  <a
-                    className="border-2 font-bold border-yellow-400 p-2 hover:bg-white hover:text-black transition-all "
-                    href={js_project.liveDemo}
-                    target="_blank"
-                  >
-                    Live Demo
-                  </a>
-                  <a
-                    className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold p-3"
-                    href={js_project.gitHubLink}
-                    target="_blank"
-                  >
-                    Github
-                  </a>
+                {/* Image with Hover Buttons */}
+                <div className="relative h-[220px] overflow-hidden group">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={project.projectImage}
+                    alt={project.projectName}
+                  />
+
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-4">
+                    <a
+                      className="border-2 font-bold border-yellow-400 px-3 py-1 hover:bg-white hover:text-black transition-all rounded"
+                      href={project.liveDemoLink}
+                      target="_blank"
+                    >
+                      Live Demo
+                    </a>
+                    <a
+                      className="bg-white border-2 hover:bg-yellow-400 transition-all text-black font-bold px-3 py-1 rounded"
+                      href={project.githubLink}
+                      target="_blank"
+                    >
+                      Github
+                    </a>
+                  </div>
+                </div>
+
+                {/* Project Info */}
+                <div className="p-4 text-black">
+                  <h1 className="font-bold text-4xl capitalize italic underline text-yellow-600 mb-2">
+                    {project.projectName}
+                  </h1>
+                  <p className="text-3xl text-justify tracking-widest leading-10 my-6 text-gray-700">
+                    {" "}
+                    {project.description}
+                  </p>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            ))
+        ) : (
+          <h1 className="text-3xl text-red-500">
+            No projects of Javascript found
+          </h1>
+        )}
       </div>
     </>
   );

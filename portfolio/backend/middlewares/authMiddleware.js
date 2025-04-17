@@ -6,7 +6,6 @@ export const protect = (req, res, next) => {
   const JWT_SECRET = process.env.JWT_SECRET;
   try {
     const token = req?.cookies?.accessToken;
-    console.log("token", token);
     if (!token)
       return res.status(401).json({ message: "Not authorized, token missing" });
 
