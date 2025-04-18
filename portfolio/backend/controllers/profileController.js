@@ -17,7 +17,7 @@ export const uploadProfile = async (req, res) => {
     });
 
     // Remove temp file from server
-    fs.unlinkSync(req.file.path);
+    // fs.unlinkSync(req.file.path);
 
     const newProfile = {
       profileImage: uploadedImage.secure_url,
