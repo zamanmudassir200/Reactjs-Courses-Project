@@ -1,7 +1,12 @@
 import React from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 
-const SkillsList = ({ skill }) => {
+const SkillsList = ({
+  skill,
+  setSelectedItem,
+  setSelectedType,
+  setDeleteModalOpen,
+}) => {
   return (
     <div
       key={skill._id}

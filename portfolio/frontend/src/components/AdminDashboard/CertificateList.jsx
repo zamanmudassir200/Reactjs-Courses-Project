@@ -1,7 +1,12 @@
 import React from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 
-const CertificateList = ({ certificate }) => {
+const CertificateList = ({
+  certificate,
+  setSelectedItem,
+  setSelectedType,
+  setDeleteModalOpen,
+}) => {
   return (
     <div
       key={certificate._id}

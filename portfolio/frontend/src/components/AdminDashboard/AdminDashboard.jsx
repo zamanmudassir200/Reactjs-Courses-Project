@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import { AppContext } from "../../context/context";
-import LogoutModal from "../Logout/LogoutModal";
+import { AppContext } from "../../context/context.jsx";
+import LogoutModal from "../Logout/LogoutModal.jsx";
 import Modal from "./Modal";
 import axios, { AxiosError } from "axios";
 import url from "../../url/url.js";
