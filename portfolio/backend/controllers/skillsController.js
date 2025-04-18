@@ -1,6 +1,6 @@
 import cloudinary from "../config/cloudinary.js";
 import skillsModel from "../models/skillsModel.js";
-
+import fs from "fs";
 // Add Skill (Already exists)
 export const addSkill = async (req, res) => {
   try {
@@ -15,6 +15,7 @@ export const addSkill = async (req, res) => {
     const uploadedSkillImage = await cloudinary.uploader.upload(req.file.path, {
       folder: "portfolioProjects",
     });
+    fs.unlinkSync(req.file.path);
 
     const newSkill = {
       skillName,
@@ -68,6 +69,7 @@ export const editSkill = async (req, res) => {
       );
       updateData.skillImage = uploadedSkillImage.secure_url;
     }
+    fs.unlinkSync(req.file.path);
 
     const updatedSkill = await skillsModel.findByIdAndUpdate(id, updateData, {
       new: true,

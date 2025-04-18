@@ -1,5 +1,6 @@
 import cloudinary from "../config/cloudinary.js";
 import projectsModel from "../models/projectsModel.js";
+import fs from "fs";
 
 export const addProject = async (req, res) => {
   try {
@@ -23,6 +24,7 @@ export const addProject = async (req, res) => {
     const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
       folder: "portfolioProjects",
     });
+    fs.unlinkSync(req.file.path);
 
     const newProject = {
       projectName,
@@ -112,6 +114,7 @@ export const editProject = async (req, res) => {
       const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
         folder: "portfolioProjects",
       });
+      fs.unlinkSync(req.file.path); // Remove file after upload
       updatedFields.projectImage = uploadedImage.secure_url;
     }
 

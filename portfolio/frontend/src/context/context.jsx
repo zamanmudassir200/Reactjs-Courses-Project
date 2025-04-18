@@ -13,7 +13,7 @@ export const AppProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [certificates, setCertificates] = useState([]);
   const [skills, setSkills] = useState([]);
-
+  const [profiles, setProfiles] = useState([]);
   const [showLogoutModal, setShowLogoutModal] = useState(false); // New state for the modal
   const navigate = useNavigate();
   const handleShowItems = () => {
@@ -30,7 +30,6 @@ export const AppProvider = ({ children }) => {
       const response = await axios.get(`${url}/users/is-logged-in`, {
         withCredentials: true,
       });
-      console.log(response.data);
       // If logged in, it will show the user details
       setIsLoggedIn(true);
     } catch (error) {
@@ -77,9 +76,19 @@ export const AppProvider = ({ children }) => {
       const response = await axios.get(`${url}/certificates`, {
         withCredentials: true,
       });
-      console.log("cert", response);
 
       setCertificates(response.data.certificates);
+    } catch (error) {
+      toast.error("Error occured during fetching projects");
+    }
+  };
+  const getAllProfiles = async () => {
+    try {
+      const response = await axios.get(`${url}/profiles`, {
+        withCredentials: true,
+      });
+
+      setProfiles(response.data.profiles);
     } catch (error) {
       toast.error("Error occured during fetching projects");
     }
@@ -110,6 +119,11 @@ export const AppProvider = ({ children }) => {
         handleShowItems,
         checkLoginStatus,
         handleHideItems,
+        setCertificates,
+        getAllProfiles,
+        profiles,
+        setProfiles,
+        setProjects,
         certificates,
         getAllCertificates,
         getAllSkills,
@@ -120,8 +134,6 @@ export const AppProvider = ({ children }) => {
         openLogoutModal, // Provide function to open modal
         closeLogoutModal, // Provide function to close modal
         projects,
-
-        setProjects,
       }}
     >
       {children}

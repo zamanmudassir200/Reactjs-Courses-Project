@@ -1,6 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import { RiDeleteBin5Fill, RiH1 } from "react-icons/ri";
-
 import { AppContext } from "../../context/context";
 import LogoutModal from "../Logout/LogoutModal";
 import Modal from "./Modal";
@@ -9,6 +7,14 @@ import url from "../../url/url.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DeleteModal from "./DeleteModal.jsx";
+import ProjectFields from "./ProjectFields.jsx";
+import CertificateFields from "./CertificateFields.jsx";
+import SkillFileds from "./SkillFileds.jsx";
+import ProfileField from "./ProfileField.jsx";
+import ProfileList from "./ProfileList.jsx";
+import SkillsList from "./SkillsList.jsx";
+import CertificateList from "./CertificateList.jsx";
+import ProjectList from "./ProjectList.jsx";
 const AdminDashboard = () => {
   const {
     checkLoginStatus,
@@ -17,13 +23,19 @@ const AdminDashboard = () => {
     getAllSkills,
     getAllProjects,
     skills,
+    setProjects,
+    setCertificates,
+    setSkills,
     projects,
     certificates,
+    getAllProfiles,
+    profiles,
+    setProfiles,
   } = useContext(AppContext);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("projects");
   const [loading, setLoading] = useState(false);
-
+  const [profileImage, setProfileImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [certificateData, setCertificateData] = useState({
     certificateName: "",
@@ -78,6 +90,7 @@ const AdminDashboard = () => {
     getAllProjects();
     getAllCertificates();
     getAllSkills();
+    getAllProfiles();
   }, []);
 
   const handleDeleteConfirmed = async () => {
@@ -101,6 +114,10 @@ const AdminDashboard = () => {
         );
       } else if (selectedType === "certificates") {
         setCertificates((prev) =>
+          prev.filter((item) => item._id !== selectedItem._id)
+        );
+      } else if (selectedType === "profiles") {
+        setProfiles((prev) =>
           prev.filter((item) => item._id !== selectedItem._id)
         );
       }
@@ -228,124 +245,41 @@ const AdminDashboard = () => {
       setLoading(false);
     }
   };
+  const handleSubmitProfile = async () => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("profileImage", profileImage);
 
+      await axios.post(`${url}/profiles/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
+
+      toast.success("Proile Uploaded Successfully!");
+      setProfileImage(null);
+
+      setTimeout(() => {
+        setShowModal(false);
+      }, 1500);
+    } catch (error) {
+      const err =
+        error instanceof AxiosError
+          ? error.response?.data?.message || "Something went wrong"
+          : "Something went wrong";
+      toast.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleSubmit = () => {
     if (activeTab === "projects") return handleSubmitProject();
     if (activeTab === "certificates") return handleSubmitCertificate();
     if (activeTab === "skills") return handleSubmitSkill();
+    if (activeTab === "profiles") return handleSubmitProfile();
   };
-
-  const renderModalFields = () => (
-    <form className="space-y-4">
-      <input
-        type="text"
-        name="projectName"
-        placeholder="Project Name"
-        value={projectData.projectName}
-        onChange={handleInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="file"
-        name="projectImage"
-        onChange={handleInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="text"
-        name="liveDemoLink"
-        placeholder="Live Demo Link"
-        value={projectData.liveDemoLink}
-        onChange={handleInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="text"
-        name="projectType"
-        placeholder="Project Type"
-        value={projectData.projectType}
-        onChange={handleInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="text"
-        name="githubLink"
-        placeholder="Github Link"
-        value={projectData.githubLink}
-        onChange={handleInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <textarea
-        name="description"
-        placeholder="Description"
-        value={projectData.description}
-        rows={"4"}
-        onChange={handleInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-    </form>
-  );
-  const renderCertificatesFields = () => (
-    <form className="space-y-4">
-      <input
-        type="text"
-        name="certificateName"
-        placeholder="Certificate Name"
-        value={certificateData.certificateName}
-        onChange={handleCertInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="file"
-        name="certificateImage"
-        onChange={handleCertInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="text"
-        name="certificateLink"
-        placeholder="Certificate Link"
-        value={certificateData.certificateLink}
-        onChange={handleCertInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="text"
-        name="certificateFrom"
-        placeholder="Issued From"
-        value={certificateData.certificateFrom}
-        onChange={handleCertInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="text"
-        name="certificateBy"
-        placeholder="Issued By"
-        value={certificateData.certificateBy}
-        onChange={handleCertInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-    </form>
-  );
-
-  const renderSkillsFields = () => (
-    <form className="space-y-4">
-      <input
-        type="text"
-        name="skillName"
-        placeholder="Skill Name"
-        value={skillData.skillName}
-        onChange={handleSkillsInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-      <input
-        type="file"
-        name="skillImage"
-        onChange={handleSkillsInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
-    </form>
-  );
 
   const [expanded, setExpanded] = useState({}); // to track which project is expanded
 
@@ -355,7 +289,7 @@ const AdminDashboard = () => {
       [id]: !prev[id],
     }));
   };
-  const tabs = ["projects", "certificates", "skills"];
+  const tabs = ["projects", "certificates", "skills", "profiles"];
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
@@ -390,7 +324,7 @@ const AdminDashboard = () => {
         </div>
         {/* <div>List of {activeTab} will be displayed here...</div> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-          {projects.length === 0 && (
+          {projects.length === 0 && activeTab === "projects" && (
             <h1 className="text-2xl text-red-500">No projects found!</h1>
           )}
           {projects &&
@@ -401,150 +335,69 @@ const AdminDashboard = () => {
               const isLong = project.description.length > 200;
 
               return (
-                <div
+                <ProjectList
                   key={project._id}
-                  className="relative bg-white rounded-2xl shadow-md border-2 border-gray-400 transition-transform transform hover:scale-105 flex flex-col h-[500px]"
-                >
-                  <div className="h-[50%] w-full border-b-2 overflow-hidden">
-                    <img
-                      src={project.projectImage}
-                      alt={project.projectName}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  <div className="p-4 flex flex-col justify-between flex-grow">
-                    <div>
-                      <h2 className="text-3xl font-bold text-gray-800">
-                        {project.projectName}
-                      </h2>
-
-                      <p className="text-[15px] font-light text-gray-600 text-justify tracking-wide leading-relaxed mt-2 mb-2">
-                        {isExpanded || !isLong
-                          ? project.description
-                          : project.description.slice(0, 200) + "..."}{" "}
-                        {isLong && (
-                          <button
-                            onClick={() => toggleExpand(project._id)}
-                            className="text-[14px] text-blue-600 hover:underline mb-2"
-                          >
-                            {isExpanded ? "See less" : "See more"}
-                          </button>
-                        )}
-                      </p>
-                    </div>
-
-                    <div className="mt-auto">
-                      <div className="flex items-center justify-between text-sm text-blue-600 font-medium">
-                        <a
-                          href={project.githubLink}
-                          target="_blank"
-                          className="text-3xl hover:underline"
-                        >
-                          Github
-                        </a>
-                        <a
-                          href={project.liveDemoLink}
-                          target="_blank"
-                          className="text-3xl hover:underline"
-                        >
-                          Live Demo
-                        </a>
-                      </div>
-                      <p className="mt-3 text-3xl text-gray-500 italic capitalize">
-                        <strong>Project Type:</strong> {project.projectType}
-                      </p>
-                    </div>
-                    <div
-                      onClick={() => {
-                        setSelectedItem(project);
-                        setSelectedType("projects");
-                        setDeleteModalOpen(true);
-                      }}
-                      className="absolute z-30 -top-5 -right-5 cursor-pointer"
-                    >
-                      <RiDeleteBin5Fill className="text-red-500" size={29} />
-                    </div>
-                  </div>
-                </div>
+                  toggleExpand={toggleExpand}
+                  project={project}
+                  setDeleteModalOpen={setDeleteModalOpen}
+                  setSelectedType={setSelectedType}
+                  setSelectedItem={setSelectedItem}
+                  isExpanded={isExpanded}
+                  isLong={isLong}
+                />
               );
             })}
-          {certificates.length === 0 && (
+          {certificates.length === 0 && activeTab === "certificates" && (
             <h1 className="text-2xl text-red-500">No certificates found!</h1>
           )}
           {certificates &&
             certificates.length > 0 &&
             activeTab === "certificates" &&
-            certificates.map((certificate) => (
-              <div
-                key={certificate._id}
-                className="relative bg-white border-2 border-gray-300  shadow-md rounded-lg p-4 mb-4"
-              >
-                <div className="w-full h-100 overflow-hidden ">
-                  <img
-                    src={certificate.certificateImage}
-                    alt={certificate.certificateName}
-                    className="w-full h-full object-contain rounded "
-                  />
-                </div>
-                <h3 className="my-7 text-4xl font-bold capitalize">
-                  {certificate.certificateName}
-                </h3>
-                <p className="text-3xl text-gray-600">
-                  <strong>From:</strong> {certificate.certificateFrom} <br />
-                  <strong>By:</strong> {certificate.certificateBy}
-                </p>
-                <a
-                  href={certificate.certificateLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 text-2xl underline mt-2 inline-block"
-                >
-                  View Certificate
-                </a>
-                <div
-                  onClick={() => {
-                    setSelectedItem(certificate); // or project/certificate
-                    setSelectedType("certificates");
-                    setDeleteModalOpen(true);
-                  }}
-                  className="absolute -top-5 -right-5 cursor-pointer"
-                >
-                  <RiDeleteBin5Fill className="text-red-500" size={29} />
-                </div>
-              </div>
-            ))}
-          {skills.length === 0 && (
+            certificates.map((certificate) => {
+              return (
+                <CertificateList
+                  key={certificate._id}
+                  certificate={certificate}
+                  setDeleteModalOpen={setDeleteModalOpen}
+                  setSelectedType={setSelectedType}
+                  setSelectedItem={setSelectedItem}
+                />
+              );
+            })}
+          {skills.length === 0 && activeTab === "skills" && (
             <h1 className=" text-2xl text-red-500">No skills found!</h1>
           )}
           {skills &&
             skills.length > 0 &&
             activeTab === "skills" &&
-            skills.map((skill) => (
-              <div
-                key={skill._id}
-                className="relative border-2 border-gray-300 bg-white shadow-lg rounded p-4 mb-4 flex flex-col gap-2 items-center justify-between space-x-4"
-              >
-                <div className="w-full h-full overflow-hidden ">
-                  <img
-                    src={skill.skillImage}
-                    alt={skill.skillName}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <h3 className="text-3xl font-semibold">{skill.skillName}</h3>
-                <div
-                  onClick={() => {
-                    setSelectedItem(skill);
-                    setSelectedType("skills");
-                    setDeleteModalOpen(true);
-                  }}
-                  className="absolute -top-5 -right-5 cursor-pointer"
-                >
-                  <RiDeleteBin5Fill className="text-red-500" size={29} />
-                </div>
-              </div>
-            ))}
+            skills.map((skill) => {
+              return (
+                <SkillsList
+                  key={skill._id}
+                  skill={skill}
+                  setDeleteModalOpen={setDeleteModalOpen}
+                  setSelectedType={setSelectedType}
+                  setSelectedItem={setSelectedItem}
+                />
+              );
+            })}
+          {profiles.length === 0 && activeTab === "profiles" && (
+            <h1 className=" text-2xl text-red-500">No profiles found!</h1>
+          )}
+          {profiles &&
+            profiles.length > 0 &&
+            activeTab === "profiles" &&
+            profiles.map((profile) => {
+              return (
+                <ProfileList
+                  key={profile._id}
+                  profile={profile}
+                  setDeleteModalOpen={setDeleteModalOpen}
+                  setSelectedType={setSelectedType}
+                  setSelectedItem={setSelectedItem}
+                />
+              );
+            })}
         </div>
       </div>
       {/* Modal for adding project */}
@@ -556,9 +409,30 @@ const AdminDashboard = () => {
         activeTab={activeTab}
         loading={loading}
       >
-        {activeTab === "projects" && renderModalFields()}
-        {activeTab === "certificates" && renderCertificatesFields()}
-        {activeTab === "skills" && renderSkillsFields()}
+        {activeTab === "projects" && (
+          <ProjectFields
+            projectData={projectData}
+            handleInputChange={handleInputChange}
+          />
+        )}
+        {activeTab === "certificates" && (
+          <CertificateFields
+            certificateData={certificateData}
+            handleCertInputChange={handleCertInputChange}
+          />
+        )}
+        {activeTab === "skills" && (
+          <SkillFileds
+            skillData={skillData}
+            handleSkillsInputChange={handleSkillsInputChange}
+          />
+        )}
+        {activeTab === "profiles" && (
+          <ProfileField
+            profileImage={profileImage}
+            setProfileImage={setProfileImage}
+          />
+        )}
       </Modal>
 
       {showLogoutModal && <LogoutModal />}

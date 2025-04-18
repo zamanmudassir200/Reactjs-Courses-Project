@@ -1,6 +1,6 @@
 import cloudinary from "../config/cloudinary.js";
 import certificatesModel from "../models/certificatesModel.js";
-
+import fs from "fs";
 // Add Certificate (Already exists)
 export const addCertificate = async (req, res) => {
   try {
@@ -25,6 +25,7 @@ export const addCertificate = async (req, res) => {
         folder: "portfolioProjects",
       }
     );
+    fs.unlinkSync(req.file.path);
 
     const newCertificate = {
       certificateName,
@@ -79,6 +80,8 @@ export const editCertificate = async (req, res) => {
           folder: "portfolioProjects",
         }
       );
+      fs.unlinkSync(req.file.path);
+
       updateData.certificateImage = uploadedCertificate.secure_url;
     }
 
