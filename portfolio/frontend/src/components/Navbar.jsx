@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { RxCross1 } from "react-icons/rx";
@@ -14,8 +14,21 @@ const Navbar = () => {
     isLoggedIn,
     showLogoutModal,
     openLogoutModal,
+    checkLoginStatus,
   } = useContext(AppContext);
+  const navItems = [
+    { path: "/", label: "ABOUT ME" },
+    { path: "/skills", label: "SKILLS" },
+    { path: "/projects", label: "PROJECTS" },
+    { path: "/contact", label: "CONTACT" },
+  ];
 
+  if (isLoggedIn) {
+    navItems.push({ path: "/admin-dashboard", label: "ADMIN DASHBOARD" });
+  }
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
   return (
     <header className="text-white z-[100] sticky shadow-lg shadow-orange-200 top-0 bg-[#0089b7] h-[70px]">
       <nav className="max-w-[120rem] mx-auto flex items-center gap-4 justify-between p-6">
@@ -30,12 +43,12 @@ const Navbar = () => {
         </div>
 
         {/* Nav items - Desktop */}
-        <div className="nav-items hidden sm:block">
+        <div className="nav-items hidden md:block">
           <ul className="flex items-center justify-center list-none text-xl gap-[3.5rem] font-semibold">
-            {["/", "/skills", "/projects", "/contact"].map((path, index) => (
+            {navItems.map(({ path, label }) => (
               <li
                 key={path}
-                className="relative group hover:scale-110 text-2xl transition-transform duration-300 ease-in-out"
+                className="relative lg:text-2xl group hover:scale-110 text-xl transition-transform duration-300 ease-in-out"
               >
                 <NavLink
                   className={({ isActive }) =>
@@ -45,7 +58,7 @@ const Navbar = () => {
                   }
                   to={path}
                 >
-                  {["ABOUT ME", "SKILLS", "PROJECTS", "CONTACT"][index]}
+                  {label}
                   <span className="block h-[3px] w-2 bg-orange-500 absolute bottom-0 left-0 transition-all duration-300 ease-in-out group-hover:w-full"></span>
                 </NavLink>
               </li>
@@ -54,7 +67,7 @@ const Navbar = () => {
         </div>
 
         {/* Login/Logout - Desktop */}
-        <div className="hidden sm:block">
+        <div className="hidden md:block">
           {isLoggedIn ? (
             <button
               onClick={openLogoutModal}
@@ -73,7 +86,7 @@ const Navbar = () => {
         </div>
 
         {/* Hamburger Icon */}
-        <div className="sm:hidden">
+        <div className="block md:hidden">
           {showNavIcon ? (
             <FaBarsStaggered
               onClick={handleShowItems}
@@ -93,10 +106,10 @@ const Navbar = () => {
         id="wrapper"
         className={`absolute w-full drop-shadow-xl bg-opacity-95 bg-[#0089b7] ${
           showNavItems ? "block" : "hidden"
-        } sm:hidden top-[70px] px-8 py-8 right-0 z-[99]`}
+        } md:hidden top-[70px] px-8 py-8 right-0 z-[99]`}
       >
         <ul className="flex flex-col items-center justify-center list-none text-xl gap-10 font-semibold">
-          {["/", "/skills", "/projects", "/contact"].map((path, index) => (
+          {navItems.map(({ path, label }) => (
             <li
               key={path}
               className="relative group hover:scale-110 transition-transform duration-300 ease-in-out"
@@ -110,11 +123,12 @@ const Navbar = () => {
                 }
                 to={path}
               >
-                {["ABOUT ME", "SKILLS", "PROJECTS", "CONTACT"][index]}
+                {label}
                 <span className="block h-[3px] w-2 bg-orange-500 absolute bottom-0 left-0 transition-all duration-300 ease-in-out group-hover:w-full"></span>
               </NavLink>
             </li>
           ))}
+
           {/* Login/Logout - Mobile */}
           <li>
             {isLoggedIn ? (
