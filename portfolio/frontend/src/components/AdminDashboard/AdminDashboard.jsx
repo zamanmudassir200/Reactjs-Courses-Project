@@ -272,7 +272,7 @@ const AdminDashboard = () => {
 
       toast.success("Profile Uploaded Successfully!");
       setProfileImage(null);
-      setProfiles([...prev, response.data.savedProfile]);
+      // setProfiles([...prev, response.data.savedProfile]);
       setTimeout(() => {
         setShowModal(false);
       }, 1500);
