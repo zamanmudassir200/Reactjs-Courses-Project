@@ -18,8 +18,8 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, loading, itemName }) => {
           <button
             onClick={onConfirm}
             disabled={loading}
-            className={`px-4 py-2 text-2xl bg-red-600 text-white rounded ${
-              loading && "bg-red-300"
+            className={`px-4 py-2 text-2xl duration-300 transition-all text-white rounded ${
+              loading ? "bg-red-300" : "bg-red-600 hover:bg-red-700"
             }`}
           >
             {loading ? "Deleting..." : "Yes, Delete"}

@@ -37,7 +37,9 @@ const Modal = ({
             type="button"
             disabled={loading}
             onClick={onSubmit}
-            className="px-4 py-2 text-2xl bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className={`px-4 py-2 text-2xl text-white rounded-lg  ${
+              loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-600"
+            }`}
           >
             {loading ? "Submitting..." : `Add ${activeTab.slice(0, -1)}`}
           </button>

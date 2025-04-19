@@ -98,13 +98,15 @@ const Login = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full text-3xl bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md transition duration-200 ${
-            loading && "bg-blue-300"
+          className={`w-full text-3xl text-white font-medium py-2 rounded-md transition duration-200 ${
+            loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-600"
           }`}
         >
           {loading ? "Logining..." : "Login"}
         </button>
-        <h1 className="text-center text-green-500 text-2xl my-2">{success}</h1>
+        <h1 className="text-center font-semibold text-green-500 text-3xl my-2">
+          {success}
+        </h1>
       </form>
 
       {/* Toast container */}

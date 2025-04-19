@@ -16,8 +16,8 @@ const LogoutModal = () => {
             <button
               onClick={logout}
               disabled={loading}
-              className={`px-4 py-2 bg-red-500 text-2xl text-white rounded-lg hover:bg-red-600 ${
-                loading && "bg-red-300"
+              className={`px-4 py-2 bg-red-500 text-2xl text-white rounded-lg  ${
+                loading ? "bg-red-300" : "bg-red-500 hover:bg-red-600"
               }`}
             >
               {loading ? "Please wait..." : "Yes"}
