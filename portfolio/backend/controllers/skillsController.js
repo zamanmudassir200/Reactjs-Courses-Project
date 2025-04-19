@@ -1,25 +1,30 @@
 import cloudinary from "../config/cloudinary.js";
 import skillsModel from "../models/skillsModel.js";
-import fs from "fs";
-// Add Skill (Already exists)
+
+// Add Skill
 export const addSkill = async (req, res) => {
   try {
     const { skillName } = req.body;
 
     if (!skillName || !req.file) {
-      return res
-        .status(400)
-        .json({ message: "All fields are required", success: false });
+      return res.status(400).json({
+        message: "All fields are required",
+        success: false,
+      });
     }
 
-    const uploadedSkillImage = await cloudinary.uploader.upload(req.file.path, {
+    const fileDataUri = `data:${
+      req.file.mimetype
+    };base64,${req.file.buffer.toString("base64")}`;
+
+    const uploadedSkillImage = await cloudinary.uploader.upload(fileDataUri, {
       folder: "portfolioProjects",
     });
-    fs.unlinkSync(req.file.path);
 
     const newSkill = {
       skillName,
       skillImage: uploadedSkillImage.secure_url,
+      cloudinaryId: uploadedSkillImage.public_id,
     };
 
     const savedSkill = await skillsModel.create(newSkill);
@@ -32,7 +37,7 @@ export const addSkill = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: `Server error ${error}`, success: false });
+      .json({ message: `Server error: ${error.message}`, success: false });
   }
 };
 
@@ -43,12 +48,12 @@ export const getAllSkills = async (req, res) => {
     return res.status(200).json({
       message: "All skills fetched successfully",
       success: true,
-      skills: skills,
+      skills,
     });
   } catch (error) {
     return res
       .status(500)
-      .json({ message: `Server error ${error}`, success: false });
+      .json({ message: `Server error: ${error.message}`, success: false });
   }
 };
 
@@ -58,28 +63,36 @@ export const editSkill = async (req, res) => {
     const { id } = req.params;
     const { skillName } = req.body;
 
-    const updateData = { skillName };
-
-    if (req.file) {
-      const uploadedSkillImage = await cloudinary.uploader.upload(
-        req.file.path,
-        {
-          folder: "portfolioProjects",
-        }
-      );
-      updateData.skillImage = uploadedSkillImage.secure_url;
-    }
-    fs.unlinkSync(req.file.path);
-
-    const updatedSkill = await skillsModel.findByIdAndUpdate(id, updateData, {
-      new: true,
-    });
-
-    if (!updatedSkill) {
+    const skill = await skillsModel.findById(id);
+    if (!skill) {
       return res
         .status(404)
         .json({ message: "Skill not found", success: false });
     }
+
+    const updateData = { skillName };
+
+    if (req.file) {
+      // Delete old image from Cloudinary
+      if (skill.cloudinaryId) {
+        await cloudinary.uploader.destroy(skill.cloudinaryId);
+      }
+
+      const fileDataUri = `data:${
+        req.file.mimetype
+      };base64,${req.file.buffer.toString("base64")}`;
+
+      const uploadedSkillImage = await cloudinary.uploader.upload(fileDataUri, {
+        folder: "portfolioProjects",
+      });
+
+      updateData.skillImage = uploadedSkillImage.secure_url;
+      updateData.cloudinaryId = uploadedSkillImage.public_id;
+    }
+
+    const updatedSkill = await skillsModel.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
     return res.status(200).json({
       message: "Skill updated successfully",
@@ -89,7 +102,7 @@ export const editSkill = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: `Server error ${error}`, success: false });
+      .json({ message: `Server error: ${error.message}`, success: false });
   }
 };
 
@@ -98,13 +111,19 @@ export const deleteSkill = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deleted = await skillsModel.findByIdAndDelete(id);
-
-    if (!deleted) {
+    const skill = await skillsModel.findById(id);
+    if (!skill) {
       return res
         .status(404)
         .json({ message: "Skill not found", success: false });
     }
+
+    // Delete image from Cloudinary
+    if (skill.cloudinaryId) {
+      await cloudinary.uploader.destroy(skill.cloudinaryId);
+    }
+
+    await skillsModel.findByIdAndDelete(id);
 
     return res.status(200).json({
       message: "Skill deleted successfully",
@@ -113,6 +132,6 @@ export const deleteSkill = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: `Server error ${error}`, success: false });
+      .json({ message: `Server error: ${error.message}`, success: false });
   }
 };

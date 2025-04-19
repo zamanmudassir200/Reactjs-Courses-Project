@@ -1,6 +1,5 @@
 import cloudinary from "../config/cloudinary.js";
 import projectsModel from "../models/projectsModel.js";
-import fs from "fs";
 
 export const addProject = async (req, res) => {
   try {
@@ -20,11 +19,13 @@ export const addProject = async (req, res) => {
         .json({ message: "All fields are required", success: false });
     }
 
-    // Upload file to Cloudinary using file.path
-    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
-      folder: "portfolioProjects",
-    });
-    fs.unlinkSync(req.file.path);
+    const fileBuffer = req.file.buffer.toString("base64");
+    const uploadedImage = await cloudinary.uploader.upload(
+      `data:${req.file.mimetype};base64,${fileBuffer}`,
+      {
+        folder: "portfolioProjects",
+      }
+    );
 
     const newProject = {
       projectName,
@@ -36,12 +37,13 @@ export const addProject = async (req, res) => {
     };
 
     const savedProject = await projectsModel.create(newProject);
-
-    return res.status(201).json({
-      message: "Project added successfully",
-      success: true,
-      data: savedProject,
-    });
+    return res
+      .status(201)
+      .json({
+        message: "Project added successfully",
+        success: true,
+        data: savedProject,
+      });
   } catch (error) {
     return res
       .status(500)
@@ -49,15 +51,16 @@ export const addProject = async (req, res) => {
   }
 };
 
-// Get all projects
 export const getAllProjects = async (req, res) => {
   try {
     const projects = await projectsModel.find().sort({ createdAt: -1 });
-    return res.status(200).json({
-      message: "Projects fetched successfully",
-      success: true,
-      projects: projects,
-    });
+    return res
+      .status(200)
+      .json({
+        message: "Projects fetched successfully",
+        success: true,
+        projects,
+      });
   } catch (error) {
     return res
       .status(500)
@@ -65,21 +68,18 @@ export const getAllProjects = async (req, res) => {
   }
 };
 
-// Delete a project
 export const deleteProject = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedProject = await projectsModel.findByIdAndDelete(id);
-    if (!deletedProject) {
+    if (!deletedProject)
       return res
         .status(404)
         .json({ message: "Project not found", success: false });
-    }
 
-    return res.status(200).json({
-      message: "Project deleted successfully",
-      success: true,
-    });
+    return res
+      .status(200)
+      .json({ message: "Project deleted successfully", success: true });
   } catch (error) {
     return res
       .status(500)
@@ -87,7 +87,6 @@ export const deleteProject = async (req, res) => {
   }
 };
 
-// Edit/update a project
 export const editProject = async (req, res) => {
   try {
     const { id } = req.params;
@@ -96,10 +95,9 @@ export const editProject = async (req, res) => {
 
     const existingProject = await projectsModel.findOne({ projectName });
     if (existingProject && existingProject._id.toString() !== id) {
-      return res.status(400).json({
-        message: "Project name already exists. Please choose another name.",
-        success: false,
-      });
+      return res
+        .status(400)
+        .json({ message: "Project name already exists", success: false });
     }
 
     let updatedFields = {
@@ -111,20 +109,20 @@ export const editProject = async (req, res) => {
     };
 
     if (req.file) {
-      const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
-        folder: "portfolioProjects",
-      });
-      fs.unlinkSync(req.file.path); // Remove file after upload
+      const fileBuffer = req.file.buffer.toString("base64");
+      const uploadedImage = await cloudinary.uploader.upload(
+        `data:${req.file.mimetype};base64,${fileBuffer}`,
+        {
+          folder: "portfolioProjects",
+        }
+      );
       updatedFields.projectImage = uploadedImage.secure_url;
     }
 
     const updatedProject = await projectsModel.findByIdAndUpdate(
       id,
       updatedFields,
-      {
-        new: true,
-        runValidators: true,
-      }
+      { new: true, runValidators: true }
     );
 
     if (!updatedProject) {
@@ -133,11 +131,13 @@ export const editProject = async (req, res) => {
         .json({ message: "Project not found", success: false });
     }
 
-    return res.status(200).json({
-      message: "Project updated successfully",
-      success: true,
-      data: updatedProject,
-    });
+    return res
+      .status(200)
+      .json({
+        message: "Project updated successfully",
+        success: true,
+        data: updatedProject,
+      });
   } catch (error) {
     return res
       .status(500)
