@@ -1,6 +1,41 @@
+// import cloudinary from "../config/cloudinary.js";
+// import profileModel from "../models/profileModel.js";
+// import fs from "fs";
+
+// // Upload Profile Image
+// export const uploadProfile = async (req, res) => {
+//   try {
+//     if (!req.file) {
+//       return res.status(400).json({
+//         message: "Profile image is required",
+//         success: false,
+//       });
+//     }
+
+//     const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+//       folder: "portfolioProjects",
+//     });
+
+//     const newProfile = {
+//       profileImage: uploadedImage.secure_url,
+//     };
+
+//     const savedProfile = await profileModel.create(newProfile);
+
+//     return res.status(201).json({
+//       message: "Profile Image Uploaded Successfully",
+//       success: true,
+//       savedProfile,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: `Server error: ${error.message}`,
+//       success: false,
+//     });
+//   }
+// };
 import cloudinary from "../config/cloudinary.js";
 import profileModel from "../models/profileModel.js";
-import fs from "fs";
 
 // Upload Profile Image
 export const uploadProfile = async (req, res) => {
@@ -12,7 +47,13 @@ export const uploadProfile = async (req, res) => {
       });
     }
 
-    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+    // Convert buffer to base64 data URI
+    const fileDataUri = `data:${
+      req.file.mimetype
+    };base64,${req.file.buffer.toString("base64")}`;
+
+    // Upload to Cloudinary from memory buffer
+    const uploadedImage = await cloudinary.uploader.upload(fileDataUri, {
       folder: "portfolioProjects",
     });
 
