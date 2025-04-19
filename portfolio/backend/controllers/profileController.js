@@ -16,9 +16,6 @@ export const uploadProfile = async (req, res) => {
       folder: "portfolioProjects",
     });
 
-    // Remove temp file from server
-    // fs.unlinkSync(req.file.path);
-
     const newProfile = {
       profileImage: uploadedImage.secure_url,
     };
@@ -62,7 +59,7 @@ export const editProfile = async (req, res) => {
       folder: "portfolioProjects",
     });
 
-    fs.unlinkSync(req.file.path);
+    // fs.unlinkSync(req.file.path);
 
     profile.profileImage = uploadedImage.secure_url;
     const updatedProfile = await profile.save();
