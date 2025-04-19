@@ -55,7 +55,7 @@ export const AppProvider = ({ children }) => {
       setShowLogoutModal(false); // Close the modal on logout
     } catch (error) {
       setLoading(false);
-      console.log("error");
+
       console.error(
         "Logout failed:",
         error.response?.data?.message || error.message
