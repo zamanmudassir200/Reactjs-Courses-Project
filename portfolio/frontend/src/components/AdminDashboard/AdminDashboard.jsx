@@ -141,7 +141,7 @@ const AdminDashboard = () => {
       formData.append("githubLink", projectData.githubLink);
       formData.append("description", projectData.description);
 
-      await axios.post(`${url}/projects/`, formData, {
+      const response = await axios.post(`${url}/projects/`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -157,7 +157,7 @@ const AdminDashboard = () => {
         githubLink: "",
         description: "",
       });
-
+      setProjects([...prev, response.data.projects]);
       setTimeout(() => {
         setShowModal(false);
       }, 1500);
@@ -182,7 +182,7 @@ const AdminDashboard = () => {
       formData.append("certificateFrom", certificateData.certificateFrom);
       formData.append("certificateBy", certificateData.certificateBy);
 
-      await axios.post(`${url}/certificates/`, formData, {
+      const response = await axios.post(`${url}/certificates/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -190,6 +190,7 @@ const AdminDashboard = () => {
       });
 
       toast.success("Certificate added!");
+      setCertificates([...prev, response.data.certificates]);
       setCertificateData({
         certificateName: "",
         certificateImage: null,
@@ -219,7 +220,7 @@ const AdminDashboard = () => {
       formData.append("skillName", skillData.skillName);
       formData.append("skillImage", skillData.skillImage);
 
-      await axios.post(`${url}/skills/`, formData, {
+      const response = await axios.post(`${url}/skills/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -227,6 +228,7 @@ const AdminDashboard = () => {
       });
 
       toast.success("Skill added!");
+      setSkills([...prev, response.data.skills]);
       setSkillData({
         skillName: "",
         skillImage: null,
