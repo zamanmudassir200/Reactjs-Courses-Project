@@ -251,7 +251,7 @@ const AdminDashboard = () => {
       const formData = new FormData();
       formData.append("profileImage", profileImage);
 
-      await axios.post(`${url}/profiles/`, formData, {
+      const response = await axios.post(`${url}/profiles/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -260,7 +260,7 @@ const AdminDashboard = () => {
 
       toast.success("Proile Uploaded Successfully!");
       setProfileImage(null);
-
+      setProfiles([...prev, response.data.savedProfile]);
       setTimeout(() => {
         setShowModal(false);
       }, 1500);
