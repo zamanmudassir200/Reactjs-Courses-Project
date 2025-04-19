@@ -103,11 +103,25 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    // res.clearCookie("accessToken");
-    res.cookie("accessToken", "");
+    const isProduction = process.env.NODE_ENV === "production";
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      path: "/",
+      expires: new Date(0), // Expire immediately
+    };
+
+    if (isProduction && process.env.PRODUCTION_DOMAIN) {
+      cookieOptions.domain = process.env.PRODUCTION_DOMAIN;
+    }
+
+    res.cookie("accessToken", "", cookieOptions);
+
     return res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
-    return res.status(500).json({ message: `Server Error: ${err.message} ` });
+    return res.status(500).json({ message: `Server Error: ${err.message}` });
   }
 };
 
