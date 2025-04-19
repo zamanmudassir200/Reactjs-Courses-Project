@@ -9,10 +9,6 @@ const __dirname = path.dirname(__filename);
 // ✅ Add this check before multer config
 const uploadsFolder = path.join(__dirname, "../uploads");
 
-// if (!fs.existsSync(uploadsFolder)) {
-//   fs.mkdirSync(uploadsFolder, { recursive: true });
-// }
-
 // 🔧 Setup multer storage
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {

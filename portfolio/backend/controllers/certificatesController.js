@@ -25,7 +25,6 @@ export const addCertificate = async (req, res) => {
         folder: "portfolioProjects",
       }
     );
-    fs.unlinkSync(req.file.path);
 
     const newCertificate = {
       certificateName,
@@ -80,7 +79,6 @@ export const editCertificate = async (req, res) => {
           folder: "portfolioProjects",
         }
       );
-      fs.unlinkSync(req.file.path);
 
       updateData.certificateImage = uploadedCertificate.secure_url;
     }

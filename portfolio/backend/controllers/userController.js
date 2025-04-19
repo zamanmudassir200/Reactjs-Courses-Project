@@ -49,40 +49,6 @@ export const register = async (req, res) => {
   }
 };
 
-// export const login = async (req, res) => {
-//   try {
-//     const { error } = loginValidation.validate(req.body);
-//     if (error)
-//       return res.status(400).json({ message: error.details[0].message });
-
-//     const { email, password } = req.body;
-//     const user = await User.findOne({ email });
-//     if (!user)
-//       return res.status(400).json({ message: "Invalid email or password" });
-
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch)
-//       return res.status(400).json({ message: "Invalid email or password" });
-
-//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-//       expiresIn: "1d",
-//     });
-
-//     const isProduction = process.env.NODE_ENV === "production";
-
-//     res.cookie("accessToken", token, {
-//       httpOnly: true,
-//       secure: isProduction, // use secure in production
-//       sameSite: isProduction ? "strict" : "lax", // lax allows local development
-//       maxAge: 24 * 60 * 60 * 1000, // 1 day
-//     });
-
-//     return res.status(200).json({ message: "Login successful", user });
-//   } catch (err) {
-//     return res.status(500).json({ message: `Server Error: ${err.message}` });
-//   }
-// };
-
 export const login = async (req, res) => {
   try {
     const { error } = loginValidation.validate(req.body);
