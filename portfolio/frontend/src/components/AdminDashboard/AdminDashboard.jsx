@@ -91,7 +91,7 @@ const AdminDashboard = () => {
     getAllCertificates();
     getAllSkills();
     getAllProfiles();
-  }, []);
+  }, [profiles]);
 
   const handleDeleteConfirmed = async () => {
     if (!selectedItem || !selectedType) return;
