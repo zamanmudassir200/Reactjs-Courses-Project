@@ -1,4 +1,4 @@
-const DeleteModal = ({ isOpen, onClose, onConfirm, itemName }) => {
+const DeleteModal = ({ isOpen, onClose, onConfirm, loading, itemName }) => {
   if (!isOpen) return null;
 
   return (
@@ -17,9 +17,12 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, itemName }) => {
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 text-2xl bg-red-600 text-white rounded"
+            disabled={loading}
+            className={`px-4 py-2 text-2xl bg-red-600 text-white rounded ${
+              loading && "bg-red-300"
+            }`}
           >
-            Yes, Delete
+            {loading ? "Deleting..." : "Yes, Delete"}
           </button>
         </div>
       </div>

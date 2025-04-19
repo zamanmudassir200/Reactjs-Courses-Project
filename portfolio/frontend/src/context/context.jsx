@@ -14,6 +14,7 @@ export const AppProvider = ({ children }) => {
   const [certificates, setCertificates] = useState([]);
   const [skills, setSkills] = useState([]);
   const [profiles, setProfiles] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false); // New state for the modal
   const navigate = useNavigate();
   const handleShowItems = () => {
@@ -43,14 +44,18 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   const logout = async () => {
+    setLoading(true);
     try {
       // Send POST request to logout endpoint
       await axios.post(`${url}/users/logout`, {}, { withCredentials: true });
+      setLoading(false);
       navigate("/");
       // Update frontend state
       setIsLoggedIn(false); // Set login state to false
       setShowLogoutModal(false); // Close the modal on logout
     } catch (error) {
+      setLoading(false);
+
       console.error(
         "Logout failed:",
         error.response?.data?.message || error.message
@@ -112,6 +117,8 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         showNavItems,
+        setLoading,
+        loading,
         skills,
         setSkills,
         showNavIcon,

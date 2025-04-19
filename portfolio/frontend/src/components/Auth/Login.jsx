@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import url from "../../url/url.js";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AppContext } from "../../context/context.jsx";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -12,6 +13,7 @@ const Login = () => {
   const [user, setUser] = useState(null); // ✅ new user state
   const navigate = useNavigate();
   const [success, setSuccess] = useState(null);
+  const { loading, setLoading } = useContext(AppContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,20 +25,22 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await axios.post(`${url}/users/login`, formData, {
         withCredentials: true,
       });
 
       setUser(response.data); // ✅ storing user response
-
       setSuccess("Login Successful.");
 
+      setLoading(false);
       setTimeout(() => {
         navigate("/admin-dashboard");
       }, 1500);
     } catch (error) {
+      setLoading(false);
+
       toast.error(error.response?.data?.message, {
         position: "top-right",
         autoClose: 2000,
@@ -93,9 +97,12 @@ const Login = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full text-3xl bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md transition duration-200"
+          disabled={loading}
+          className={`w-full text-3xl bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md transition duration-200 ${
+            loading && "bg-blue-300"
+          }`}
         >
-          Login
+          {loading ? "Logining..." : "Login"}
         </button>
         <h1 className="text-center text-green-500 text-2xl my-2">{success}</h1>
       </form>

@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { AppContext } from "../../context/context";
 
 const LogoutModal = () => {
-  const { showLogoutModal, closeLogoutModal, logout } = useContext(AppContext);
+  const { showLogoutModal, loading, closeLogoutModal, logout } =
+    useContext(AppContext);
 
   return (
     showLogoutModal && (
@@ -14,9 +15,12 @@ const LogoutModal = () => {
           <div className="flex justify-end gap-4">
             <button
               onClick={logout}
-              className="px-4 py-2 bg-red-500 text-2xl text-white rounded-lg hover:bg-red-600"
+              disabled={loading}
+              className={`px-4 py-2 bg-red-500 text-2xl text-white rounded-lg hover:bg-red-600 ${
+                loading && "bg-red-300"
+              }`}
             >
-              Yes
+              {loading ? "Please wait..." : "Yes"}
             </button>
             <button
               onClick={closeLogoutModal}

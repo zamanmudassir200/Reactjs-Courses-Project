@@ -95,7 +95,7 @@ const AdminDashboard = () => {
 
   const handleDeleteConfirmed = async () => {
     if (!selectedItem || !selectedType) return;
-
+    setLoading(true);
     try {
       await axios.delete(`${url}/${selectedType}/${selectedItem._id}`, {
         withCredentials: true,
@@ -105,28 +105,38 @@ const AdminDashboard = () => {
 
       // Update UI
       if (selectedType === "skills") {
+        setLoading(false);
         setSkills((prev) =>
           prev.filter((item) => item._id !== selectedItem._id)
         );
       } else if (selectedType === "projects") {
+        setLoading(false);
+
         setProjects((prev) =>
           prev.filter((item) => item._id !== selectedItem._id)
         );
       } else if (selectedType === "certificates") {
+        setLoading(false);
+
         setCertificates((prev) =>
           prev.filter((item) => item._id !== selectedItem._id)
         );
       } else if (selectedType === "profiles") {
+        setLoading(false);
+
         setProfiles((prev) =>
           prev.filter((item) => item._id !== selectedItem._id)
         );
       }
     } catch (error) {
+      setLoading(false);
+
       toast.error("Error deleting item");
     } finally {
       setDeleteModalOpen(false);
       setSelectedItem(null);
       setSelectedType("");
+      setLoading(false);
     }
   };
 
@@ -441,6 +451,7 @@ const AdminDashboard = () => {
       {deleteModalOpen && (
         <DeleteModal
           isOpen={deleteModalOpen}
+          loading={loading}
           onClose={() => setDeleteModalOpen(false)}
           onConfirm={() => handleDeleteConfirmed()}
           itemName={
