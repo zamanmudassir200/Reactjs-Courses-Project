@@ -103,7 +103,8 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("accessToken");
+    // res.clearCookie("accessToken");
+    res.cookies("accessToken", "");
     return res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
     return res.status(500).json({ message: `Server Error: ${err.message} ` });
