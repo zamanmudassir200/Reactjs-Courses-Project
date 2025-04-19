@@ -258,7 +258,7 @@ const AdminDashboard = () => {
         withCredentials: true,
       });
 
-      toast.success("Proile Uploaded Successfully!");
+      toast.success("Profile Uploaded Successfully!");
       setProfileImage(null);
       setProfiles([...prev, response.data.savedProfile]);
       setTimeout(() => {
