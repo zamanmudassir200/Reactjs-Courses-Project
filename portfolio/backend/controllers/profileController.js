@@ -59,6 +59,7 @@ export const uploadProfile = async (req, res) => {
 
     const newProfile = {
       profileImage: uploadedImage.secure_url,
+      cloudinaryId: uploadedImage.public_id, // Save public_id to DB
     };
 
     const savedProfile = await profileModel.create(newProfile);
@@ -77,6 +78,7 @@ export const uploadProfile = async (req, res) => {
 };
 
 // Edit Profile Image
+
 export const editProfile = async (req, res) => {
   try {
     const { id } = req.params;
@@ -88,6 +90,7 @@ export const editProfile = async (req, res) => {
       });
     }
 
+    // Check if profile exists
     const profile = await profileModel.findById(id);
     if (!profile) {
       return res.status(404).json({
@@ -96,13 +99,20 @@ export const editProfile = async (req, res) => {
       });
     }
 
-    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+    // Convert buffer to base64 format
+    const fileDataUri = `data:${
+      req.file.mimetype
+    };base64,${req.file.buffer.toString("base64")}`;
+
+    // Upload the image directly from memory buffer
+    const uploadedImage = await cloudinary.uploader.upload(fileDataUri, {
       folder: "portfolioProjects",
     });
 
-    // fs.unlinkSync(req.file.path);
-
+    // Update the profile image
     profile.profileImage = uploadedImage.secure_url;
+    profile.cloudinaryId = uploadedImage.public_id;
+
     const updatedProfile = await profile.save();
 
     return res.status(200).json({
@@ -129,6 +139,9 @@ export const deleteProfile = async (req, res) => {
         message: "Profile not found",
         success: false,
       });
+    }
+    if (profile.cloudinaryId) {
+      await cloudinary.uploader.destroy(profile.cloudinaryId);
     }
 
     await profileModel.findByIdAndDelete(id);
