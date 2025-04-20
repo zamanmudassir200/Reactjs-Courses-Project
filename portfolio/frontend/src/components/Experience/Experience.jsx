@@ -14,43 +14,48 @@ const Experience = () => {
         Experiences
       </h1>
 
-      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-col gap-7">
         {experiences &&
           experiences.length > 0 &&
           experiences.map((exp) => (
             <div
               key={exp._id}
-              className="bg-[#0b486e] text-white hover:scale-95 duration-200 p-6 rounded-xl shadow-md border hover:shadow-lg transition "
+              className="bg-[#0b486e] flex  justify-between gap-5 text-white hover:scale-[0.98] duration-200 p-6 rounded-xl shadow-md border hover:shadow-lg transition "
             >
+              <div className="">
+                <h2 className="text-5xl font-semibold mb-5 ">
+                  {exp.experienceTitle}
+                </h2>
+                <p className="text-4xl  mb-2">{exp.experienceCompany}</p>
+                <p className="text-xl font-semibold mb-3 italic">
+                  {exp.experienceRole}
+                </p>
+
+                <p className="text-2xl ">
+                  <span className="text-3xl font-semibold">Duration:</span>{" "}
+                  <span className="">
+                    {new Date(exp.experienceStart).toDateString()} -{" "}
+                    {exp.isCurrentlyWorking || !exp.experienceEnd ? (
+                      <span className="text-orange-500 font-bold">Present</span>
+                    ) : (
+                      new Date(exp.experienceEnd).toDateString()
+                    )}{" "}
+                  </span>
+                </p>
+              </div>
               {exp.experienceImage && (
                 <div
-                  className={`w-full ${
-                    exp.experienceImage ? "h-100" : "h-auto"
-                  }  mb-6 overflow-hidden`}
+                  className={` ${
+                    exp.experienceImage ? "h-80" : "h-auto"
+                  } hover:scale-150 duration-200  mb-6 overflow-hidden`}
                 >
                   <img
                     src={exp.experienceImage}
                     alt={exp.experienceTitle}
-                    className="w-full h-100 object-cover rounded"
+                    className="w-full  h-full object-contain rounded"
                   />
                 </div>
               )}
-
-              <h2 className="text-3xl font-semibold mb-2 ">
-                {exp.experienceTitle}
-              </h2>
-              <p className="text-2xl  mb-1">{exp.experienceCompany}</p>
-              <p className="text-lg font-semibold mb-2 italic">
-                {exp.experienceRole}
-              </p>
-
-              <p className="text-xl ">
-                <span className="text-2xl font-semibold">Duration:</span>{" "}
-                {new Date(exp.experienceStart).toDateString()} -{" "}
-                {exp.isCurrentlyWorking || !exp.experienceEnd
-                  ? "Present"
-                  : new Date(exp.experienceEnd).toDateString()}{" "}
-              </p>
             </div>
           ))}
       </div>
