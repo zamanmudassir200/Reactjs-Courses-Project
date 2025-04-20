@@ -11,12 +11,14 @@ const ProjectFields = ({ handleInputChange, projectData }) => {
         onChange={handleInputChange}
         className="w-full text-2xl border p-2 rounded"
       />
+
       <input
         type="file"
         name="projectImage"
         onChange={handleInputChange}
         className="w-full text-2xl border p-2 rounded"
       />
+
       <input
         type="text"
         name="liveDemoLink"
@@ -25,22 +27,29 @@ const ProjectFields = ({ handleInputChange, projectData }) => {
         onChange={handleInputChange}
         className="w-full text-2xl border p-2 rounded"
       />
-      <input
-        type="text"
+
+      {/* 👇 Select Dropdown for Project Type */}
+      <select
         name="projectType"
-        placeholder="Project Type"
         value={projectData.projectType}
         onChange={handleInputChange}
-        className="w-full text-2xl border p-2 rounded"
-      />
+        className="w-full text-2xl border p-2 rounded bg-white"
+      >
+        <option value="">Select Project Type</option>
+        <option value="MERN Stack">MERN Stack</option>
+        <option value="React">React</option>
+        <option value="JavaScript">JavaScript</option>
+      </select>
+
       <input
         type="text"
         name="githubLink"
-        placeholder="Github Link"
+        placeholder="GitHub Link"
         value={projectData.githubLink}
         onChange={handleInputChange}
         className="w-full text-2xl border p-2 rounded"
       />
+
       <textarea
         name="description"
         placeholder="Description"
