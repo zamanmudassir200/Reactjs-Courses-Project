@@ -20,10 +20,10 @@ const Experience = () => {
           experiences.map((exp) => (
             <div
               key={exp._id}
-              className="bg-[#0b486e] flex  justify-between gap-5 text-white hover:scale-[0.98] duration-200 p-6 rounded-xl shadow-md border hover:shadow-lg transition "
+              className="bg-[#0b486e] flex flex-wrap flex-grow sm:justify-between gap-5 sm:items-start justify-center text-white hover:scale-[0.98] duration-200 p-6 rounded-xl shadow-md border hover:shadow-lg transition "
             >
               <div className="">
-                <h2 className="text-5xl font-semibold mb-5 ">
+                <h2 className="text-[26px] font-semibold mb-5 ">
                   {exp.experienceTitle}
                 </h2>
                 <p className="text-4xl  mb-2">{exp.experienceCompany}</p>
