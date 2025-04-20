@@ -230,7 +230,7 @@ const AdminDashboard = () => {
         experienceEnd: "",
       });
 
-      setExperiences((prev) => [...prev, response.data.savedExperience]);
+      // setExperiences((prev) => [...prev, response.data.savedExperience]);
 
       setTimeout(() => {
         setShowModal(false); // Close modal after 1.5 seconds
@@ -273,7 +273,7 @@ const AdminDashboard = () => {
         githubLink: "",
         description: "",
       });
-      setProjects([...prev, response.data.projects]);
+      // setProjects([...prev, response.data.projects]);
       setTimeout(() => {
         setShowModal(false);
       }, 1500);
@@ -306,7 +306,7 @@ const AdminDashboard = () => {
       });
 
       toast.success("Certificate added!");
-      setCertificates([...prev, response.data.certificates]);
+      // setCertificates([...prev, response.data.certificates]);
       setCertificateData({
         certificateName: "",
         certificateImage: null,
