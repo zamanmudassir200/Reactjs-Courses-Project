@@ -9,6 +9,7 @@ import projectsRoutes from "./routes/projectsRoutes.js";
 import certificatesRoutes from "./routes/certificatesRoutes.js";
 import skillsRoutes from "./routes/skillsRoutes.js";
 import profleRoutes from "./routes/profileRoutes.js";
+import experienceRoutes from "./routes/experienceRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -41,7 +42,7 @@ app.use("/projects", projectsRoutes);
 app.use("/certificates", certificatesRoutes);
 app.use("/skills", skillsRoutes);
 app.use("/profiles", profleRoutes);
-
+app.use("/experiences", experienceRoutes);
 app.get("/", (req, res) => {
   res.send("Welcome to Portfolio Backend API");
 });

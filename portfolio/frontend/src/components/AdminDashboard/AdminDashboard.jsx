@@ -15,6 +15,9 @@ import ProfileList from "./ProfileList.jsx";
 import SkillsList from "./SkillsList.jsx";
 import CertificateList from "./CertificateList.jsx";
 import ProjectList from "./ProjectList.jsx";
+import ExperienceFields from "./ExperienceFields.jsx";
+import ExperienceList from "./ExperienceList.jsx";
+
 const AdminDashboard = () => {
   const {
     checkLoginStatus,
@@ -29,6 +32,9 @@ const AdminDashboard = () => {
     projects,
     certificates,
     getAllProfiles,
+    setExperiences,
+    experiences,
+    getAllExperiences,
     profiles,
     setProfiles,
   } = useContext(AppContext);
@@ -44,7 +50,36 @@ const AdminDashboard = () => {
     certificateFrom: "",
     certificateBy: "",
   });
+  const [experienceData, setExperienceData] = useState({
+    experienceTitle: "",
+    experienceCompany: "",
+    experienceRole: "",
+    isCurrentlyWorking: false,
+    experienceImage: null,
+    experienceStart: "",
+    experienceEnd: "",
+  });
 
+  const handleChange = (e) => {
+    const { name, type, value, checked, files } = e.target;
+
+    if (type === "checkbox") {
+      setExperienceData((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+    } else if (type === "file") {
+      setExperienceData((prev) => ({
+        ...prev,
+        [name]: files[0],
+      }));
+    } else {
+      setExperienceData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
   const [skillData, setSkillData] = useState({
     skillName: "",
     skillImage: null,
@@ -91,6 +126,7 @@ const AdminDashboard = () => {
     getAllCertificates();
     getAllSkills();
     getAllProfiles();
+    getAllExperiences();
   }, [profiles]);
 
   const handleDeleteConfirmed = async () => {
@@ -127,6 +163,12 @@ const AdminDashboard = () => {
         setProfiles((prev) =>
           prev.filter((item) => item._id !== selectedItem._id)
         );
+      } else if (selectedType === "experiences") {
+        setLoading(false);
+
+        setExperiences((prev) =>
+          prev.filter((item) => item._id !== selectedItem._id)
+        );
       }
     } catch (error) {
       setLoading(false);
@@ -136,6 +178,68 @@ const AdminDashboard = () => {
       setDeleteModalOpen(false);
       setSelectedItem(null);
       setSelectedType("");
+      setLoading(false);
+    }
+  };
+  const handleSubmitExperience = async () => {
+    setLoading(true);
+    try {
+      const formDataToSend = new FormData();
+
+      formDataToSend.append("experienceTitle", experienceData.experienceTitle);
+      formDataToSend.append(
+        "experienceCompany",
+        experienceData.experienceCompany
+      );
+      formDataToSend.append("experienceRole", experienceData.experienceRole);
+      formDataToSend.append("experienceStart", experienceData.experienceStart);
+      if (experienceData.isCurrentlyWorking) {
+        formDataToSend.append(
+          "isCurrentlyWorking",
+          experienceData.isCurrentlyWorking.toString()
+        );
+      }
+      if (experienceData.experienceEnd) {
+        formDataToSend.append("experienceEnd", experienceData.experienceEnd);
+      }
+      if (experienceData.experienceImage) {
+        formDataToSend.append(
+          "experienceImage",
+          experienceData.experienceImage
+        );
+      }
+
+      const response = await axios.post(`${url}/experiences`, formDataToSend, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success("Experience added successfully!");
+
+      setExperienceData({
+        experienceTitle: "",
+        experienceCompany: "",
+        experienceRole: "",
+        experienceStart: "",
+        isCurrentlyWorking: false,
+        experienceImage: null,
+        experienceEnd: "",
+      });
+
+      setExperiences((prev) => [...prev, response.data.savedExperience]);
+
+      setTimeout(() => {
+        setShowModal(false); // Close modal after 1.5 seconds
+      }, 1500);
+    } catch (error) {
+      const err =
+        error instanceof AxiosError
+          ? error.response?.data?.message || "Something went wrong"
+          : "Something went wrong";
+      toast.error(err);
+    } finally {
       setLoading(false);
     }
   };
@@ -291,6 +395,7 @@ const AdminDashboard = () => {
     if (activeTab === "certificates") return handleSubmitCertificate();
     if (activeTab === "skills") return handleSubmitSkill();
     if (activeTab === "profiles") return handleSubmitProfile();
+    if (activeTab === "experiences") return handleSubmitExperience();
   };
 
   const [expanded, setExpanded] = useState({}); // to track which project is expanded
@@ -301,7 +406,13 @@ const AdminDashboard = () => {
       [id]: !prev[id],
     }));
   };
-  const tabs = ["projects", "certificates", "skills", "profiles"];
+  const tabs = [
+    "projects",
+    "certificates",
+    "skills",
+    "profiles",
+    "experiences",
+  ];
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
@@ -410,6 +521,23 @@ const AdminDashboard = () => {
                 />
               );
             })}
+          {experiences.length === 0 && activeTab === "experiences" && (
+            <h1 className=" text-2xl text-red-500">No experiences found!</h1>
+          )}{" "}
+          {experiences &&
+            experiences.length > 0 &&
+            activeTab === "experiences" &&
+            experiences.map((experience) => {
+              return (
+                <ExperienceList
+                  key={experience._id}
+                  experience={experience}
+                  setDeleteModalOpen={setDeleteModalOpen}
+                  setSelectedType={setSelectedType}
+                  setSelectedItem={setSelectedItem}
+                />
+              );
+            })}
         </div>
       </div>
       {/* Modal for adding project */}
@@ -443,6 +571,12 @@ const AdminDashboard = () => {
           <ProfileField
             profileImage={profileImage}
             setProfileImage={setProfileImage}
+          />
+        )}
+        {activeTab === "experiences" && (
+          <ExperienceFields
+            handleChange={handleChange}
+            experienceData={experienceData}
           />
         )}
       </Modal>

@@ -49,9 +49,7 @@ const Home = () => {
   useEffect(() => {
     getAllProfiles();
   }, []);
-  useEffect(() => {
-    console.log(profiles);
-  }, [profiles]);
+  useEffect(() => {}, [profiles]);
 
   return (
     <>
@@ -112,7 +110,7 @@ const Home = () => {
       </section>
       <section className="bg-[#46aacc] py-10  ">
         <div className=" max-w-[1100px] mx-auto px-10 ">
-          <h1 className="text-center py-10 font-bold text-white text-6xl">
+          <h1 className="text-center py-10 font-bold text-white underline text-6xl">
             Education
           </h1>
           <Education />

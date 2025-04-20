@@ -15,6 +15,8 @@ export const AppProvider = ({ children }) => {
   const [skills, setSkills] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [experiences, setExperiences] = useState([]);
+
   const [showLogoutModal, setShowLogoutModal] = useState(false); // New state for the modal
   const navigate = useNavigate();
   const handleShowItems = () => {
@@ -110,6 +112,21 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const getAllExperiences = async () => {
+    try {
+      const response = await axios.get(`${url}/experiences`, {
+        withCredentials: true,
+      });
+      setExperiences(response.data.experiences);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        navigate("/");
+      } else {
+        toast.error("Error occurred during fetching experiences");
+      }
+    }
+  };
+
   const openLogoutModal = () => setShowLogoutModal(true);
   const closeLogoutModal = () => setShowLogoutModal(false);
 
@@ -118,6 +135,9 @@ export const AppProvider = ({ children }) => {
       value={{
         showNavItems,
         setLoading,
+        getAllExperiences,
+        experiences,
+        setExperiences,
         loading,
         skills,
         setSkills,

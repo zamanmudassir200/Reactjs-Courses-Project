@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import Login from "./components/Auth/Login.jsx";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
+import Experience from "./components/Experience/Experience.jsx";
 const App = () => {
   return (
     <>
@@ -20,6 +21,7 @@ const App = () => {
               element={
                 <>
                   <Home />
+                  <Experience />
                   <Skills />
                   <Projects />
                   <Contact />
