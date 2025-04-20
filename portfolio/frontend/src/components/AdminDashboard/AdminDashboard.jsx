@@ -17,6 +17,8 @@ import CertificateList from "./CertificateList.jsx";
 import ProjectList from "./ProjectList.jsx";
 import ExperienceFields from "./ExperienceFields.jsx";
 import ExperienceList from "./ExperienceList.jsx";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoCloseOutline } from "react-icons/io5";
 
 const AdminDashboard = () => {
   const {
@@ -399,7 +401,7 @@ const AdminDashboard = () => {
   };
 
   const [expanded, setExpanded] = useState({}); // to track which project is expanded
-
+  const [showAdminNavs, setShowAdminNavs] = useState(false);
   const toggleExpand = (id) => {
     setExpanded((prev) => ({
       ...prev,
@@ -417,13 +419,31 @@ const AdminDashboard = () => {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
       {/* Left Panel */}
-      <div className="w-full lg:w-1/6 bg-gray-100 p-4 space-y-4">
-        <h2 className="text-4xl mb-5 font-bold">Admin Panel</h2>
-        <div className="flex lg:flex-col gap-4  flex-row">
+      <div className="w-full  lg:w-1/6 bg-gray-100 p-4 space-y-4">
+        <div className="flex my-5 items-center justify-between">
+          <h2 className="text-4xl font-bold">Admin Panel</h2>
+
+          <div className="sm:hidden block">
+            {showAdminNavs ? (
+              <IoCloseOutline
+                className="cursor-pointer"
+                onClick={() => setShowAdminNavs(false)}
+                size={27}
+              />
+            ) : (
+              <RxHamburgerMenu
+                className="cursor-pointer"
+                onClick={() => setShowAdminNavs(true)}
+                size={23}
+              />
+            )}
+          </div>
+        </div>
+        <div className="flex  lg:flex-col gap-4  flex-row">
           {tabs.map((tab) => (
             <button
               key={tab}
-              className={`w-full text-left  text-3xl p-2 rounded hover:bg-gray-300 ${
+              className={`w-full sm:block hidden text-left  text-3xl p-2 rounded hover:bg-gray-300 ${
                 activeTab === tab ? "bg-gray-300" : ""
               }`}
               onClick={() => setActiveTab(tab)}
@@ -433,7 +453,22 @@ const AdminDashboard = () => {
           ))}
         </div>
       </div>
-
+      {/* Mobile admin nav */}
+      {showAdminNavs &&
+        tabs.map((tab) => (
+          <button
+            key={tab}
+            className={`w-full   text-left  text-3xl p-2 rounded hover:bg-gray-300 ${
+              activeTab === tab ? "bg-gray-300" : ""
+            }`}
+            onClick={() => {
+              setActiveTab(tab);
+              setShowAdminNavs(false);
+            }}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
       {/* Right Panel */}
       <div className="flex-1 p-6">
         <div className="flex justify-between items-center mb-4">
@@ -580,7 +615,6 @@ const AdminDashboard = () => {
           />
         )}
       </Modal>
-
       {showLogoutModal && <LogoutModal />}
       {deleteModalOpen && (
         <DeleteModal
