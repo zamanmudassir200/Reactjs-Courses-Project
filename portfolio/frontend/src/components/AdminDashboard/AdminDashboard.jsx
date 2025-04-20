@@ -344,7 +344,7 @@ const AdminDashboard = () => {
       });
 
       toast.success("Skill added!");
-      setSkills([...prev, response.data.skills]);
+      // setSkills([...prev, response.data.skills]);
       setSkillData({
         skillName: "",
         skillImage: null,
